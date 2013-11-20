@@ -48,4 +48,10 @@ public class OthelloBoard implements Board {
 	int getDimension() {
 		return dimension;
 	}
+
+	@Override
+	public Node getNode(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

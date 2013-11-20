@@ -6,6 +6,7 @@ import java.util.Random;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
+import kth.game.othello.score.Score;
 
 /**
  * This class represents an Othello game.
@@ -15,10 +16,11 @@ import kth.game.othello.player.Player;
  */
 public class OthelloImpl implements Othello {
 
-	private OthelloMoveHandler moveHandler;
-	private OthelloPlayerHandler playerHandler;
-	private OthelloNodeHelper nodeHelper;
-	private OthelloBoardHandler boardHandler;
+	private MoveHandler moveHandler;
+	private PlayerHandler playerHandler;
+	private NodeHelper nodeHelper;
+	private BoardHandler boardHandler;
+	private RulesImpl rules;
 
 	/**
 	 * Creates an Othello game
@@ -31,10 +33,11 @@ public class OthelloImpl implements Othello {
 	 *            Board to be played at
 	 */
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
-		playerHandler = new OthelloPlayerHandler(blackPlayer, whitePlayer);
-		nodeHelper = new OthelloNodeHelper();
-		boardHandler = new OthelloBoardHandler(board);
-		moveHandler = new OthelloMoveHandler(nodeHelper, boardHandler);
+		playerHandler = new PlayerHandler(blackPlayer, whitePlayer);
+		nodeHelper = new NodeHelper();
+		boardHandler = new BoardHandler(board);
+		rules = new RulesImpl(boardHandler, nodeHelper);
+		moveHandler = new MoveHandler(nodeHelper, boardHandler, rules);
 	}
 
 	@Override
@@ -44,8 +47,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		return moveHandler.getNodesToSwap(
-				playerHandler.getPlayerFromId(playerId), nodeId);
+		return rules.getNodesToSwap(playerId, nodeId);
 	}
 
 	@Override
@@ -60,14 +62,13 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean hasValidMove(String playerId) {
-		return moveHandler
-				.hasValidMove(playerHandler.getPlayerFromId(playerId));
+		return rules.hasValidMove(playerId);
 	}
 
 	@Override
 	public boolean isActive() {
 		for (Player player : playerHandler.getPlayers()) {
-			if (moveHandler.hasValidMove(player))
+			if (rules.hasValidMove(player.getId()))
 				return true;
 		}
 		return false;
@@ -75,8 +76,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-		return moveHandler.isMoveValid(playerHandler.getPlayerFromId(playerId),
-				nodeId);
+		return rules.isMoveValid(playerId,	nodeId);
 	}
 
 	@Override
@@ -99,7 +99,6 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void start() {
-		Random rnd = new Random();
 		Player player = playerHandler.getRandomPlayer();
 		start(player.getId());
 	}
@@ -109,5 +108,11 @@ public class OthelloImpl implements Othello {
 		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
 		boardHandler.initBoard(playerHandler.getPlayerInTurn(),
 				playerHandler.getOpponent(playerHandler.getPlayerInTurn()));
+	}
+
+	@Override
+	public Score getScore() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
