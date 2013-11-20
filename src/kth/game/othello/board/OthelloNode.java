@@ -1,7 +1,5 @@
 package kth.game.othello.board;
 
-import java.util.Observer;
-
 /**
  * The responsibility of a node is to keep information of which player is occupying it.
  * 
@@ -65,12 +63,6 @@ public class OthelloNode implements Node {
 	@Override
 	public boolean isMarked() {
 		return marked;
-	}
-
-	@Override
-	public void addObserver(Observer observer) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	
