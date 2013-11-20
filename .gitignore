@@ -46,3 +46,4 @@ local.properties
 
 # Orig
 *.orig
+/bin
