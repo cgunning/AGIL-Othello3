@@ -5,18 +5,22 @@ import java.util.List;
 
 import junit.framework.Assert;
 import kth.game.othello.board.Board;
+import kth.game.othello.board.BoardCreatorImpl;
+import kth.game.othello.board.NodeCreatorImpl;
 import kth.game.othello.board.factory.BoardFactory;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.PlayerCreator;
+import kth.game.othello.player.PlayerCreatorImpl;
 import kth.game.othello.player.movestrategy.MoveStrategy;
 
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class OthelloLab2IT {
 
 	private BoardFactory getBoardFactory() {
-		return null;
+		return new BoardFactory(new NodeCreatorImpl(), new BoardCreatorImpl());
 	}
 
 	private MoveStrategy getNewMoveStrategy() {
@@ -24,11 +28,11 @@ public class OthelloLab2IT {
 	}
 
 	private OthelloFactory getOthelloFactory() {
-		return null;
+		return new OthelloFactory(new OthelloCreatorImpl(), getBoardFactory() , new PlayerCreatorImpl());
 	}
 
 	private PlayerCreator getPlayerCreator() {
-		return null;
+		return new PlayerCreatorImpl();
 	}
 
 	private void makeNumberOfComputerMoves(int numberOfMoves, Othello othello) {

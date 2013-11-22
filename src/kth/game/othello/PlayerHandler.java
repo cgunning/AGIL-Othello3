@@ -17,11 +17,11 @@ class PlayerHandler {
 	ArrayList<Player> players;
 	Player playerInTurn;
 
-	PlayerHandler(Player blackPlayer, Player whitePlayer) {
-		playerInTurn = blackPlayer;
-		players = new ArrayList<Player>();
-		players.add(blackPlayer);
-		players.add(whitePlayer);
+	PlayerHandler(List<Player> players) {
+		// TODO - Player in turn
+		playerInTurn = players.get(0);
+		this.players = new ArrayList<Player>();
+		this.players.addAll(players); 
 	}
 
 	/**
@@ -66,15 +66,15 @@ class PlayerHandler {
 	 *            Id for the player in turn
 	 * @return the opponent
 	 */
-	Player getOpponent(Player currentPlayer) {
+	Player getOpponent(String playerId) {
 		for (Player player : players)
-			if (!player.getId().equals(currentPlayer.getId()))
+			if (!player.getId().equals(playerId))
 				return player;
 		return null;
 	}
 
 	void changePlayerInTurn() {
-		playerInTurn = getOpponent(playerInTurn);
+		playerInTurn = getOpponent(playerInTurn.getId());
 	}
 
 	/**

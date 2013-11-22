@@ -15,13 +15,10 @@ import kth.game.othello.player.Player;
  */
 public class MoveHandler {
 
-	private NodeHelper nodeHelper;
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
 
-	MoveHandler(NodeHelper nodeHelper,
-			BoardHandler boardHandler, RulesImpl ruleHelper) {
-		this.nodeHelper = nodeHelper;
+	MoveHandler(BoardHandler boardHandler, RulesImpl ruleHelper) {
 		this.boardHandler = boardHandler;
 		this.rules = ruleHelper;
 	}
@@ -36,11 +33,11 @@ public class MoveHandler {
 	 * @return List of nodes that will be effected for that move or an empty
 	 *         ArrayList if there are no moves.
 	 */
-	List<Node> move(Player player) {
+	List<Node> move(String playerId) {
 		List<Node> nodes = boardHandler.getBoard().getNodes();
 		for (Node node : nodes) {
-			if (rules.isMoveValid(player.getId(), node.getId())) {
-				return move(player, node.getId());
+			if (rules.isMoveValid(playerId, node.getId())) {
+				return move(playerId, node.getId());
 			}
 		}
 		return new ArrayList<Node>();
@@ -57,13 +54,29 @@ public class MoveHandler {
 	 *            The Id for the node where the move is played
 	 * @return List of nodes that will be effected for that move.
 	 */
-	List<Node> move(Player player, String nodeId) {
+	List<Node> move(String playerId, String nodeId) {
 		// TODO Check so that the id is in the range of the game
-		if (!nodeHelper.isValidNodeId(nodeId) || player == null)
-			throw new IllegalArgumentException();
-		List<Node> nodesToSwap = rules.getNodesToSwap(player.getId(), nodeId);
-		boardHandler.updateMovesOnBoard(nodesToSwap, player);
+//		if (!nodeHelper.isValidNodeId(nodeId) || player == null)
+//			throw new IllegalArgumentException();
+		List<Node> nodesToSwap = rules.getNodesToSwap(playerId, nodeId);
+		boardHandler.updateMovesOnBoard(nodesToSwap, playerId);
 		return nodesToSwap;
+	}
+	
+	/**
+	 * Gets the coordinates for a node from the ID
+	 * 
+	 * @param nodeId
+	 *            - The ID of the node
+	 * @return The coordinates of the node on the form { x, y }
+	 */
+	Node getNodeFromId(String nodeId) {
+		for(Node node : boardHandler.getBoard().getNodes()) {
+			if(node.getId() == nodeId) {
+				return node;
+			}
+		}
+		return null;
 	}
 
 }

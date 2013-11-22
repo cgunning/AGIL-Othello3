@@ -13,29 +13,26 @@ public class RulesImpl implements Rules {
 	private static int[] changes = { UP, LEFT, RIGHT, DOWN, UP_LEFT, UP_RIGHT,
 			DOWN_LEFT, DOWN_RIGHT };
 	private BoardHandler boardHandler;
-	private NodeHelper nodeHelper;
 	private RuleHelper ruleHelper;
 	
-	private RulesImpl(BoardHandler boardHandler, NodeHelper nodeHelper, RuleHelper ruleHelper) {
+	private RulesImpl(BoardHandler boardHandler, RuleHelper ruleHelper) {
 		this.boardHandler = boardHandler;
 		this.ruleHelper = ruleHelper;
-		this.nodeHelper = nodeHelper;
 	}
 	
-	RulesImpl(BoardHandler boardHandler, NodeHelper nodeHelper) {
+	RulesImpl(BoardHandler boardHandler) {
 		this.boardHandler = boardHandler;
 		this.ruleHelper = new RuleHelper();
-		this.nodeHelper = nodeHelper;
 	}
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		int[] coordinatesForNode = nodeHelper.getCoordinatesFromId(nodeId);
+		Node node = ruleHelper.getNodeFromId(boardHandler.getBoard(), nodeId);
 		List<Node> returnedNodes = new ArrayList<Node>();
 		for (int change : changes) {
 			List<Node> swappedNodes = ruleHelper.findValidMoveInDirection(
-					boardHandler.getBoard(), coordinatesForNode[0],
-					coordinatesForNode[1], playerId, change);
+					boardHandler.getBoard(), node.getXCoordinate(),
+					node.getYCoordinate(), playerId, change);
 			if (swappedNodes != null) {
 				returnedNodes.addAll(swappedNodes);
 			}
@@ -58,20 +55,16 @@ public class RulesImpl implements Rules {
 	public boolean isMoveValid(String playerId, String nodeId) {
 		Board board = boardHandler.getBoard();
 		List<Node> nodes = board.getNodes();
-		int[] coordinatesForNode = nodeHelper.getCoordinatesFromId(nodeId);
-		if (nodes.get(
-				nodeHelper.getIndexFromCoordinates(board,
-						coordinatesForNode[0], coordinatesForNode[1]))
-				.isMarked()) {
+		Node node = ruleHelper.getNodeFromId(board, nodeId);
+		if (node.isMarked()) {
 			return false;
 		}
 		for (int change : changes) {
 			if (ruleHelper.findValidMoveInDirection(board,
-					coordinatesForNode[0], coordinatesForNode[1], playerId,
+					node.getXCoordinate(), node.getYCoordinate(), playerId,
 					change) != null)
 				return true;
 		}
 		return false;
 	}
-
 }

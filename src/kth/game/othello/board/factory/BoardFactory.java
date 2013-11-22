@@ -9,7 +9,6 @@ import kth.game.othello.player.Player;
 
 public class BoardFactory {
 	private BoardCreator boardCreator;
-
 	private NodeCreator nodeCreator;
 
 	public BoardFactory(NodeCreator nodeCreator, BoardCreator boardCreator) {

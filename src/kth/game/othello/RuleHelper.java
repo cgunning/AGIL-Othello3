@@ -17,7 +17,6 @@ public class RuleHelper {
 
 	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9,
 			UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
-	private NodeHelper nodeHelper = new NodeHelper();
 
 	/**
 	 * Method to see if the node in the given direction is a valid step.
@@ -53,7 +52,6 @@ public class RuleHelper {
 	 */
 	boolean isIllegalDiagonalStep(Board board, Node lastNode, Node currentNode,
 			int change) {
-		int dimension = (int) Math.sqrt(board.getNodes().size());
 		if (currentNode.getXCoordinate() == lastNode.getXCoordinate()
 				&& (change == UP_RIGHT || change == DOWN_LEFT))
 			return true;
@@ -83,8 +81,7 @@ public class RuleHelper {
 	List<Node> findValidMoveInDirection(Board board, int xCoordinate,
 			int yCoordinate, String playerId, int direction) {
 		List<Node> nodes = board.getNodes();
-		int i = nodeHelper.getIndexFromCoordinates(board, xCoordinate,
-				yCoordinate);
+		int i = 8*xCoordinate + yCoordinate;
 		Node lastNode = nodes.get(i);
 		boolean foundOpponent = false;
 		List<Node> returnedNodes = new ArrayList<Node>();
@@ -137,18 +134,19 @@ public class RuleHelper {
 	}
 
 	/**
-	 * Gets the coordinates for a node from the ID
+	 * Returns a node corresponding to the ID
 	 * 
 	 * @param nodeId
 	 *            - The ID of the node
-	 * @return The coordinates of the node on the form { x, y }
+	 * @return The node
 	 */
-	int[] getCoordinatesFromId(String nodeId) {
-		int[] coordinates = new int[2];
-		String[] strCoordinates = nodeId.split(":");
-		coordinates[0] = Integer.parseInt(strCoordinates[0]);
-		coordinates[1] = Integer.parseInt(strCoordinates[1]);
-		return coordinates;
+	Node getNodeFromId(Board board, String nodeId) {
+		for(Node node : board.getNodes()) {
+			if(node.getId() == nodeId) {
+				return node;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -158,13 +156,10 @@ public class RuleHelper {
 	 *            - The ID of the node
 	 * @return True if the ID is valid, false otherwise
 	 */
-	boolean isValidNodeId(String nodeId) {
-
-		int xCoordinate = getCoordinatesFromId(nodeId)[0];
-		int yCoordinate = getCoordinatesFromId(nodeId)[1];
-		if (xCoordinate >= 0 && xCoordinate < 8 && yCoordinate >= 0
-				&& yCoordinate < 8)
-			return true;
-		return false;
+	boolean isValidNodeId(Board board, String nodeId) {
+		Node node = getNodeFromId(board, nodeId);
+		if (node == null)
+			return false;
+		return true;
 	}
 }

@@ -1,11 +1,10 @@
 package kth.game.othello;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import kth.game.othello.board.Board;
+import kth.game.othello.board.BoardCreator;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloNode;
+import kth.game.othello.board.NodeImpl;
 import kth.game.othello.player.Player;
 
 /**
@@ -16,41 +15,12 @@ import kth.game.othello.player.Player;
  */
 class BoardHandler {
 
-	Board board;
-
-	BoardHandler(Board board) {
+	private Board board;
+	private BoardCreator boardCreator;
+	
+	BoardHandler(Board board, BoardCreator boardCreator) {
 		this.board = board;
-	}
-
-	/**
-	 * Method for initializing an quadratic OthelloBoard, with the starting
-	 * pieces for both players
-	 * 
-	 * @param board
-	 *            Board to initialized
-	 * @param blackPlayer
-	 *            the black player
-	 * @param whitePlayerId
-	 *            the white player
-	 */
-	void initBoard(Player blackPlayer, Player whitePlayer) {
-		int dimension = (int) Math.sqrt(board.getNodes().size());
-		int start = dimension / 2 - 1;
-
-		List<Node> initMovesForBlack = new ArrayList<Node>();
-		List<Node> initMovesForWhite = new ArrayList<Node>();
-
-		initMovesForBlack
-				.add(new OthelloNode(start, start, blackPlayer.getId()));
-		initMovesForWhite.add(new OthelloNode(start, start + 1, whitePlayer
-				.getId()));
-		initMovesForWhite.add(new OthelloNode(start + 1, start, whitePlayer
-				.getId()));
-		initMovesForBlack.add(new OthelloNode(start + 1, start + 1, blackPlayer
-				.getId()));
-
-		updateMovesOnBoard(initMovesForBlack, blackPlayer);
-		updateMovesOnBoard(initMovesForWhite, whitePlayer);
+		this.boardCreator = boardCreator;
 	}
 
 	/**
@@ -63,15 +33,16 @@ class BoardHandler {
 	 * @param player
 	 *            the player whom turn it is
 	 */
-	void updateMovesOnBoard(List<Node> nodesToSwap, Player player) {
+	void updateMovesOnBoard(List<Node> nodesToSwap, String playerId) {
+		List<Node> boardNodes = board.getNodes();
 		for (Node node : nodesToSwap) {
 			int xCoordinate = node.getXCoordinate();
 			int yCoordinate = node.getYCoordinate();
 			int index = 8 * xCoordinate + yCoordinate;
-			List<Node> oldNodes = board.getNodes();
-			oldNodes.set(index, new OthelloNode(xCoordinate, yCoordinate,
-					player.getId()));
+			boardNodes.set(index, new NodeImpl(xCoordinate, yCoordinate,
+					playerId));
 		}
+		this.board = boardCreator.createBoard(boardNodes);
 	}
 
 	/**

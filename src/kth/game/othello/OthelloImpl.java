@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import kth.game.othello.board.Board;
+import kth.game.othello.board.BoardCreator;
+import kth.game.othello.board.BoardCreatorImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
 import kth.game.othello.score.Score;
@@ -18,7 +20,6 @@ public class OthelloImpl implements Othello {
 
 	private MoveHandler moveHandler;
 	private PlayerHandler playerHandler;
-	private NodeHelper nodeHelper;
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
 
@@ -34,10 +35,9 @@ public class OthelloImpl implements Othello {
 	 */
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
 		playerHandler = new PlayerHandler(blackPlayer, whitePlayer);
-		nodeHelper = new NodeHelper();
-		boardHandler = new BoardHandler(board);
-		rules = new RulesImpl(boardHandler, nodeHelper);
-		moveHandler = new MoveHandler(nodeHelper, boardHandler, rules);
+		boardHandler = new BoardHandler(board, new BoardCreatorImpl());
+		rules = new RulesImpl(boardHandler);
+		moveHandler = new MoveHandler(boardHandler, rules);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class OthelloImpl implements Othello {
 	@Override
 	public List<Node> move() {
 		List<Node> nodesToSwap = moveHandler.move(playerHandler
-				.getPlayerInTurn());
+				.getPlayerInTurn().getId());
 		playerHandler.changePlayerInTurn();
 		return nodesToSwap;
 
@@ -91,8 +91,7 @@ public class OthelloImpl implements Othello {
 	@Override
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
-		List<Node> nodesToSwap = moveHandler.move(
-				playerHandler.getPlayerFromId(playerId), nodeId);
+		List<Node> nodesToSwap = moveHandler.move(playerId, nodeId);
 		playerHandler.changePlayerInTurn();
 		return nodesToSwap;
 	}
@@ -106,8 +105,6 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start(String playerId) {
 		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
-		boardHandler.initBoard(playerHandler.getPlayerInTurn(),
-				playerHandler.getOpponent(playerHandler.getPlayerInTurn()));
 	}
 
 	@Override

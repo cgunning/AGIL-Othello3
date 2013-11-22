@@ -16,7 +16,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testBoard() {
-		OthelloBoard board = new OthelloBoard(8);
+		BoardImpl board = new BoardImpl(8);
 		Assert.assertEquals(64, board.getNodes().size());
 	}
 }
