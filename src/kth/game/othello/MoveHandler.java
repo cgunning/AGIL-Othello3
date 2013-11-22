@@ -63,20 +63,6 @@ public class MoveHandler {
 		return nodesToSwap;
 	}
 	
-	/**
-	 * Gets the coordinates for a node from the ID
-	 * 
-	 * @param nodeId
-	 *            - The ID of the node
-	 * @return The coordinates of the node on the form { x, y }
-	 */
-	Node getNodeFromId(String nodeId) {
-		for(Node node : boardHandler.getBoard().getNodes()) {
-			if(node.getId() == nodeId) {
-				return node;
-			}
-		}
-		return null;
-	}
+
 
 }

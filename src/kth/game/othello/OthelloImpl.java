@@ -33,8 +33,8 @@ public class OthelloImpl implements Othello {
 	 * @param board
 	 *            Board to be played at
 	 */
-	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
-		playerHandler = new PlayerHandler(blackPlayer, whitePlayer);
+	public OthelloImpl(List<Player> players, Board board) {
+		playerHandler = new PlayerHandler(players);
 		boardHandler = new BoardHandler(board, new BoardCreatorImpl());
 		rules = new RulesImpl(boardHandler);
 		moveHandler = new MoveHandler(boardHandler, rules);

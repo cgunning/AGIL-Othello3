@@ -3,7 +3,7 @@ package kth.game.othello;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.BoardCreatorImpl;
 import kth.game.othello.board.NodeCreatorImpl;
@@ -16,7 +16,6 @@ import kth.game.othello.player.movestrategy.MoveStrategy;
 
 import org.junit.Test;
 
-@SuppressWarnings("deprecation")
 public class OthelloLab2IT {
 
 	private BoardFactory getBoardFactory() {

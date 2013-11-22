@@ -37,11 +37,15 @@ public class PlayerHandlerTest {
 	public void testGetOpponent() {
 		Player blackPlayer = mock(HumanPlayer.class);
 		Player whitePlayer = mock(ComputerPlayer.class);
+
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(blackPlayer);
+		players.add(whitePlayer);
 		
 		when(blackPlayer.getId()).thenReturn("1");		
 		when(whitePlayer.getId()).thenReturn("2");
 		
-		PlayerHandler playerHandler = new PlayerHandler(blackPlayer, whitePlayer);
+		PlayerHandler playerHandler = new PlayerHandler(players);
 		
 		Assert.assertEquals("2", playerHandler.getOpponent(blackPlayer.getId()).getId());
 		Assert.assertEquals(null, playerHandler.getOpponent("Grovsopor"));

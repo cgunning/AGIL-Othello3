@@ -9,8 +9,7 @@ public class OthelloCreatorImpl implements OthelloCreator {
 
 	@Override
 	public Othello createOthello(Board board, List<Player> players) {
-		// TODO Auto-generated method stub
-		return null;
+		return new OthelloImpl(players, board);
 	}
 
 }

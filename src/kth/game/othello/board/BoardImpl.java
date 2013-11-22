@@ -3,6 +3,8 @@ package kth.game.othello.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.xml.internal.resolver.readers.XCatalogReader;
+
 /**
  * This class represents an OthelloBoard
  * 
@@ -51,7 +53,10 @@ public class BoardImpl implements Board {
 	}
 
 	@Override
-	public Node getNode(int x, int y) {
-		return nodes.get(8*x + y);
+	public Node getNode(int x, int y) throws IllegalArgumentException {
+		for(Node node : nodes)
+			if(node.getXCoordinate() == x && node.getYCoordinate() == y)
+				return node;
+		throw new IllegalArgumentException("No such node");
 	}
 }

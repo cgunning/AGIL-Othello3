@@ -9,14 +9,34 @@ import kth.game.othello.board.BoardCreatorImpl;
 import kth.game.othello.board.BoardImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
+import kth.game.othello.player.Player;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
 public class BoardHandlerTest {
-
+	
+	@Test
+	public void testGetNodeFromId() {
+		
+		List<Node> nodes = new ArrayList<Node>();
+		for(int i = 0; i < 10; i++) {
+			Node node = mock(Node.class);
+			when(node.getId()).thenReturn(i + "");
+			nodes.add(node);
+		}
+		Board board = mock(Board.class);
+		
+		when(board.getNodes()).thenReturn(nodes);
+			
+		BoardCreator boardCreator = Mockito.mock(BoardCreator.class);
+		BoardHandler boardHandler = new BoardHandler(board, boardCreator);
+		Assert.assertEquals("4", boardHandler.getNodeFromId("4").getId());
+	}
+	
 	@Test
 	public void testUpdateMovesOnBoard() {
 		Board board = mock(BoardImpl.class);
