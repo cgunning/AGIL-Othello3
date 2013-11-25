@@ -11,12 +11,4 @@ import org.junit.Test;
  */
 public class BoardTest {
 	
-	/**
-	 * 
-	 */
-	@Test
-	public void testBoard() {
-		BoardImpl board = new BoardImpl(8);
-		Assert.assertEquals(64, board.getNodes().size());
-	}
 }

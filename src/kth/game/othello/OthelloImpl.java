@@ -9,6 +9,7 @@ import kth.game.othello.board.BoardCreatorImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
 import kth.game.othello.score.Score;
+import kth.game.othello.score.ScoreImpl;
 
 /**
  * This class represents an Othello game.
@@ -22,7 +23,8 @@ public class OthelloImpl implements Othello {
 	private PlayerHandler playerHandler;
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
-
+	private Score score;
+	
 	/**
 	 * Creates an Othello game
 	 * 
@@ -35,9 +37,10 @@ public class OthelloImpl implements Othello {
 	 */
 	public OthelloImpl(List<Player> players, Board board) {
 		playerHandler = new PlayerHandler(players);
-		boardHandler = new BoardHandler(board, new BoardCreatorImpl());
+		boardHandler = new BoardHandler(board);
 		rules = new RulesImpl(boardHandler);
 		moveHandler = new MoveHandler(boardHandler, rules);
+		score = new ScoreImpl(players);
 	}
 
 	@Override
@@ -109,7 +112,6 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public Score getScore() {
-		// TODO Auto-generated method stub
-		return null;
+		return score;
 	}
 }

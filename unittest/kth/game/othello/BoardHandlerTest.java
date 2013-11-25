@@ -32,8 +32,8 @@ public class BoardHandlerTest {
 		
 		when(board.getNodes()).thenReturn(nodes);
 			
-		BoardCreator boardCreator = Mockito.mock(BoardCreator.class);
-		BoardHandler boardHandler = new BoardHandler(board, boardCreator);
+//		BoardCreator boardCreator = Mockito.mock(BoardCreator.class);
+		BoardHandler boardHandler = new BoardHandler(board);
 		Assert.assertEquals("4", boardHandler.getNodeFromId("4").getId());
 	}
 	
@@ -57,8 +57,8 @@ public class BoardHandlerTest {
 		
 		when(board.getNodes()).thenReturn(nodes);
 		when(boardCreator.createBoard(nodes)).thenReturn(board);
-		
-		BoardHandler boardHandler = new BoardHandler(board, boardCreator);
+//		
+//		BoardHandler boardHandler = new BoardHandler(board, boardCreator);
 		
 		
 	}

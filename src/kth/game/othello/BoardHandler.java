@@ -3,6 +3,7 @@ import java.util.List;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.BoardCreator;
+import kth.game.othello.board.BoardImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
 import kth.game.othello.player.Player;
@@ -16,11 +17,9 @@ import kth.game.othello.player.Player;
 class BoardHandler {
 
 	private Board board;
-	private BoardCreator boardCreator;
 	
-	BoardHandler(Board board, BoardCreator boardCreator) {
+	BoardHandler(Board board) {
 		this.board = board;
-		this.boardCreator = boardCreator;
 	}
 
 	/**
@@ -42,7 +41,7 @@ class BoardHandler {
 			boardNodes.set(index, new NodeImpl(xCoordinate, yCoordinate,
 					playerId));
 		}
-		this.board = boardCreator.createBoard(boardNodes);
+		this.board = new BoardImpl(boardNodes);
 	}
 
 	/**

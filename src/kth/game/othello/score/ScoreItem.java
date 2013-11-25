@@ -26,5 +26,9 @@ public class ScoreItem {
 	public int getScore() {
 		return score;
 	}
+	
+	void setScore(int score) {
+		this.score = score;
+	}
 
 }

@@ -50,7 +50,7 @@ public class RuleHandler {
 		Node node = boardHandler.getNodeFromId(nodeId);
 		Board board = boardHandler.getBoard();
 		if(node.isMarked())
-			return null;
+			return new ArrayList<Node>();
 		
 		List<Node> nodesToSwap = new ArrayList<Node>();
 		for(Direction d : Direction.values()) {
@@ -61,7 +61,7 @@ public class RuleHandler {
 			try {
 				newNode = board.getNode(node.getXCoordinate() + d.x, node.getYCoordinate() + d.y);
 			} catch (IllegalArgumentException e) {
-				return null;
+				return new ArrayList<Node>();
 			}
 			while(true) {
 				if(newNode.isMarked()) {
