@@ -1,5 +1,7 @@
 package kth.game.othello.player;
 
+import java.util.UUID;
+
 import kth.game.othello.player.movestrategy.MoveStrategy;
 
 /**
@@ -10,10 +12,10 @@ import kth.game.othello.player.movestrategy.MoveStrategy;
  */
 public abstract class AbstractPlayer implements Player {
 	
-	private static Integer currentId = 0;
-	private String id;
+	private UUID id;
 	private String name;
 	private Type type;
+	private MoveStrategy moveStrategy;
 	
 	/**
 	 * Creates a new abstract player
@@ -21,16 +23,14 @@ public abstract class AbstractPlayer implements Player {
 	 * @param type Type of the player
 	 */
 	public AbstractPlayer(String name, Type type) {
-		
 		this.name = name;
-		this.id = currentId.toString();
+		this.id = UUID.randomUUID();
 		this.type = type;
-		currentId += 1;
 	}
 	
 	@Override
 	public String getId() {
-		return id;
+		return id.toString();
 	}
 
 	@Override
@@ -45,13 +45,12 @@ public abstract class AbstractPlayer implements Player {
 
 	@Override
 	public MoveStrategy getMoveStrategy() {
-		// TODO Auto-generated method stub
-		return null;
+		return moveStrategy;
 	}
 
 	@Override
 	public void setMoveStrategy(MoveStrategy moveStrategy) {
-		// TODO Auto-generated method stub
+		this.moveStrategy = moveStrategy;
 		
 	}
 

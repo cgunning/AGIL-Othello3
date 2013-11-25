@@ -1,6 +1,10 @@
 package kth.game.othello.player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kth.game.othello.player.movestrategy.MoveStrategy;
+import kth.game.othello.player.movestrategy.RandomStrategy;
 
 public class PlayerCreatorImpl implements PlayerCreator{
 
@@ -11,8 +15,9 @@ public class PlayerCreatorImpl implements PlayerCreator{
 
 	@Override
 	public Player createComputerPlayer(String name, MoveStrategy moveStrategy) {
-		// TODO Auto-generated method stub
-		return null;
+		Player computer = new ComputerPlayer(name);
+		computer.setMoveStrategy(moveStrategy);
+		return computer;
 	}
 
 	@Override

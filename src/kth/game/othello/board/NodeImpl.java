@@ -1,6 +1,10 @@
 package kth.game.othello.board;
 
+import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
+
+import sun.net.www.content.text.plain;
 
 /**
  * The responsibility of a node is to keep information of which player is occupying it.
@@ -8,7 +12,7 @@ import java.util.Observer;
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  *
  */
-public class NodeImpl implements Node {
+public class NodeImpl extends Observable implements Node {
 	
 	private String id;
 	private String occupantPlayerId;
@@ -35,11 +39,13 @@ public class NodeImpl implements Node {
 	 * @param occupantPlayerId	-	the playerId of the player occupying that node
 	 */
 	public NodeImpl (int xCoordinate, int yCoordinate, String occupantPlayerId) {
+		String previousOccupantPlayerId = occupantPlayerId;
 		this.id = xCoordinate + ":" + yCoordinate;
 		this.occupantPlayerId = occupantPlayerId;
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		this.marked = true;
+		super.notifyObservers(previousOccupantPlayerId);
 	}
 	
 	@Override
@@ -69,9 +75,6 @@ public class NodeImpl implements Node {
 
 	@Override
 	public void addObserver(Observer observer) {
-		// TODO Auto-generated method stub
-		
+		super.addObserver(observer);
 	}
-	
-	
 }

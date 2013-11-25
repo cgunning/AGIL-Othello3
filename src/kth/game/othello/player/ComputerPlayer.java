@@ -1,5 +1,7 @@
 package kth.game.othello.player;
 
+import kth.game.othello.player.movestrategy.MoveStrategy;
+
 /**
  * Class for computer-player
  * 
@@ -8,12 +10,14 @@ package kth.game.othello.player;
  */
 public class ComputerPlayer extends AbstractPlayer {
 	
+	MoveStrategy moveStrategy;
+	
 	/**
 	 * Creates a new computer-player
 	 * @param name Name for the computer-player
 	 */
 	public ComputerPlayer(String name) {
-		super(name, Type.COMPUTER);
-		
+		super(name, Type.COMPUTER);	
 	}
+
 }
