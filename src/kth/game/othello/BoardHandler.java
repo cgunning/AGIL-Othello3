@@ -1,12 +1,11 @@
 package kth.game.othello;
+
 import java.util.List;
 
 import kth.game.othello.board.Board;
-import kth.game.othello.board.BoardCreator;
 import kth.game.othello.board.BoardImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
-import kth.game.othello.player.Player;
 
 /**
  * This class initializes and updates a board.
@@ -17,7 +16,14 @@ import kth.game.othello.player.Player;
 class BoardHandler {
 
 	private Board board;
-	
+
+	/**
+	 * Creates a boardHandler, which purpose is to change the nodes on the
+	 * board.
+	 * 
+	 * @param board
+	 *            Board that is played on.
+	 */
 	BoardHandler(Board board) {
 		this.board = board;
 	}
@@ -25,21 +31,23 @@ class BoardHandler {
 	/**
 	 * Method for updating nodes on a existing board
 	 * 
-	 * @param board
-	 *            Board to be updated
 	 * @param nodesToSwap
-	 *            a list of all the nodes that should be swapped
-	 * @param player
-	 *            the player whom turn it is
+	 *            The nodes to be swapped on the board
+	 * @param playerId
+	 *            The Id of the player who is swapping the nodes
 	 */
+	/* TODO */
 	void updateMovesOnBoard(List<Node> nodesToSwap, String playerId) {
 		List<Node> boardNodes = board.getNodes();
 		for (Node node : nodesToSwap) {
+			NodeImpl nodeToSwap = (NodeImpl) node;
+			nodeToSwap.setOccupantPlayerId(playerId);
 			int xCoordinate = node.getXCoordinate();
 			int yCoordinate = node.getYCoordinate();
 			int index = 8 * xCoordinate + yCoordinate;
-			boardNodes.set(index, new NodeImpl(xCoordinate, yCoordinate,
-					playerId));
+			boardNodes.set(index, nodeToSwap);
+			// boardNodes.set(index, new NodeImpl(xCoordinate, yCoordinate,
+			// playerId));
 		}
 		this.board = new BoardImpl(boardNodes);
 	}
@@ -52,21 +60,21 @@ class BoardHandler {
 	Board getBoard() {
 		return board;
 	}
-	
+
 	/**
-	 * Gets the coordinates for a node from the ID
+	 * Get a node from its Id
 	 * 
 	 * @param nodeId
-	 *            - The ID of the node
-	 * @return The coordinates of the node on the form { x, y }
+	 *            The Id for the node to be returned
+	 * @return The node corresponding to the Id, if there is no node who has the
+	 *         Id it returns null
 	 */
 	Node getNodeFromId(String nodeId) {
-		for(Node node : board.getNodes()) {
-			if(node.getId().equals(nodeId)) {
+		for (Node node : board.getNodes()) {
+			if (node.getId().equals(nodeId)) {
 				return node;
 			}
 		}
 		return null;
 	}
-
 }

@@ -7,11 +7,10 @@ import java.util.Random;
 import kth.game.othello.Rules;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.MoveHandler;
 
 public class RandomStrategy extends MoveStrategyImpl {
 
-	RandomStrategy(MoveHandler moveHandler) {
+	public RandomStrategy() {
 		super("RandomStrategy");
 	}
 

@@ -1,13 +1,12 @@
 package kth.game.othello;
 
 import java.util.List;
-import java.util.Random;
+import java.util.Observer;
 
 import kth.game.othello.board.Board;
-import kth.game.othello.board.BoardCreator;
-import kth.game.othello.board.BoardCreatorImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
+import kth.game.othello.player.movestrategy.MoveStrategy;
 import kth.game.othello.score.Score;
 import kth.game.othello.score.ScoreImpl;
 
@@ -24,7 +23,7 @@ public class OthelloImpl implements Othello {
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
 	private Score score;
-	
+
 	/**
 	 * Creates an Othello game
 	 * 
@@ -79,13 +78,21 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-		return rules.isMoveValid(playerId,	nodeId);
+		return rules.isMoveValid(playerId, nodeId);
 	}
 
 	@Override
 	public List<Node> move() {
+		MoveStrategy moveStrategy = playerHandler.getPlayerInTurn()
+				.getMoveStrategy();
+		Node node = moveStrategy.move(playerHandler.getPlayerInTurn().getId(),
+				rules, boardHandler.getBoard());
+		/* TODO */
+		if (node == null) {
+			return null;
+		}
 		List<Node> nodesToSwap = moveHandler.move(playerHandler
-				.getPlayerInTurn().getId());
+				.getPlayerInTurn().getId(), node.getId());
 		playerHandler.changePlayerInTurn();
 		return nodesToSwap;
 
@@ -108,6 +115,9 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start(String playerId) {
 		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
+		for (Node node : boardHandler.getBoard().getNodes()) {
+			node.addObserver((Observer) score);
+		}
 	}
 
 	@Override

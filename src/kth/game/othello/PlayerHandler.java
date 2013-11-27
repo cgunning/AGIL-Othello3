@@ -17,11 +17,17 @@ class PlayerHandler {
 	ArrayList<Player> players;
 	Player playerInTurn;
 
+	/**
+	 * Creates a PlayerHandler that handles the players of an othello game
+	 * 
+	 * @param players
+	 *            The players that plays the game
+	 */
 	PlayerHandler(List<Player> players) {
 		// TODO - Player in turn
 		playerInTurn = players.get(0);
 		this.players = new ArrayList<Player>();
-		this.players.addAll(players); 
+		this.players.addAll(players);
 	}
 
 	/**
@@ -29,8 +35,6 @@ class PlayerHandler {
 	 * 
 	 * @param playerId
 	 *            Id of the player
-	 * @param players
-	 *            List of all the players
 	 * @return the Player corresponding to the right Id
 	 */
 	Player getPlayerFromId(String playerId) {
@@ -67,12 +71,22 @@ class PlayerHandler {
 	 * @return the opponent
 	 */
 	Player getOpponent(String playerId) {
-		for (Player player : players)
-			if (!player.getId().equals(playerId))
-				return player;
-		return null;
+		int i = players.indexOf(playerInTurn);
+		if (i == players.size() - 1) {
+			return players.get(0);
+		} else {
+			return players.get(i + 1);
+		}
+		// return players.get;
+		// for (Player player : players)
+		// if (!player.getId().equals(playerId))
+		// return player;
+		// return null;
 	}
 
+	/**
+	 * Changes the player in turn
+	 */
 	void changePlayerInTurn() {
 		playerInTurn = getOpponent(playerInTurn.getId());
 	}
@@ -86,6 +100,11 @@ class PlayerHandler {
 		return players;
 	}
 
+	/**
+	 * Gets a random player from the game
+	 * 
+	 * @return A random player of the game
+	 */
 	Player getRandomPlayer() {
 		Random rand = new Random();
 		return players.get(rand.nextInt(players.size()));

@@ -5,11 +5,10 @@ import java.util.List;
 import kth.game.othello.Rules;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.MoveHandler;
 
 public class MostTurnedNodesStrategy extends MoveStrategyImpl {
 
-	MostTurnedNodesStrategy(MoveHandler moveHandler) {
+	public MostTurnedNodesStrategy() {
 		super("MostTurnedNodesStrategy");
 	}
 

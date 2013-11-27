@@ -6,12 +6,13 @@ import org.junit.Test;
 
 /**
  * Test the OthelloNode class
+ * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
- *
+ * 
  */
 @SuppressWarnings("deprecation")
 public class NodeTest {
-	
+
 	/**
 	 * 
 	 */
@@ -24,7 +25,8 @@ public class NodeTest {
 		Assert.assertEquals(null, unMarkednode.getOccupantPlayerId());
 		Assert.assertEquals(false, unMarkednode.isMarked());
 
-		NodeImpl markedNode = new NodeImpl(1, 1, "1");
+		NodeImpl markedNode = new NodeImpl(1, 1);
+		markedNode.setOccupantPlayerId("1");
 		Assert.assertEquals(1, markedNode.getXCoordinate());
 		Assert.assertEquals(1, markedNode.getYCoordinate());
 		Assert.assertEquals("1:1", markedNode.getId());

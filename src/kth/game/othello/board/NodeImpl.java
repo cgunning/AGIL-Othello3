@@ -1,53 +1,46 @@
 package kth.game.othello.board;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import sun.net.www.content.text.plain;
-
 /**
- * The responsibility of a node is to keep information of which player is occupying it.
+ * The responsibility of a node is to keep information of which player is
+ * occupying it.
  * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
- *
+ * 
  */
 public class NodeImpl extends Observable implements Node {
-	
+
 	private String id;
 	private String occupantPlayerId;
 	private int xCoordinate;
 	private int yCoordinate;
 	private boolean marked;
-	
+
 	/**
 	 * Creates an unmarked node
-	 * @param xCoordinate	-	the x coordinate of the node
-	 * @param yCoordinate	-	the y coordinate of the node
+	 * 
+	 * @param xCoordinate
+	 *            - the x coordinate of the node
+	 * @param yCoordinate
+	 *            - the y coordinate of the node
 	 */
-	public NodeImpl (int xCoordinate, int yCoordinate) {
+	public NodeImpl(int xCoordinate, int yCoordinate) {
 		this.id = xCoordinate + ":" + yCoordinate;
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		this.marked = false;
 	}
-	
-	/**
-	 * Creates a marked node
-	 * @param xCoordinate		-	the x coordinate of the node
-	 * @param yCoordinate		-	the y coordinate of the node
-	 * @param occupantPlayerId	-	the playerId of the player occupying that node
-	 */
-	public NodeImpl (int xCoordinate, int yCoordinate, String occupantPlayerId) {
-		String previousOccupantPlayerId = occupantPlayerId;
-		this.id = xCoordinate + ":" + yCoordinate;
-		this.occupantPlayerId = occupantPlayerId;
-		this.xCoordinate = xCoordinate;
-		this.yCoordinate = yCoordinate;
+
+	public void setOccupantPlayerId(String playerId) {
+		String previousOccupantPlayerId = this.occupantPlayerId;
+		this.occupantPlayerId = playerId;
 		this.marked = true;
-		super.notifyObservers(previousOccupantPlayerId);
+		setChanged();
+		notifyObservers(previousOccupantPlayerId);
 	}
-	
+
 	@Override
 	public String getId() {
 		return id;
