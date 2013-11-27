@@ -38,12 +38,16 @@ public class MoveHandler {
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */
-	List<Node> move(String playerId, MoveStrategy moveStrategy) {
+	List<Node> move(String playerId, MoveStrategy moveStrategy) throws IllegalStateException {
 		Node node = moveStrategy.move(playerId, rules, boardHandler.getBoard());
 		if (node == null) {
-			return new ArrayList<Node>();
+			throw new IllegalStateException();
 		} else {
-			return move(playerId, node.getId());
+			try {
+				return move(playerId, node.getId());
+			} catch (IllegalArgumentException e) {
+				throw new IllegalStateException();
+			}
 		}
 	}
 
@@ -57,10 +61,11 @@ public class MoveHandler {
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */
-	List<Node> move(String playerId, String nodeId) {
-		// // TODO Check so that the id is in the range of the game
-		// if (!rules.isMoveValid(playerId, nodeId))
-		// throw new IllegalArgumentException();
+	List<Node> move(String playerId, String nodeId) throws IllegalArgumentException {
+		// TODO Check so that the id is in the range of the game
+		 if (!rules.isMoveValid(playerId, nodeId))
+			 throw new IllegalArgumentException();
+		 
 		List<Node> nodesToSwap = rules.getNodesToSwap(playerId, nodeId);
 		boardHandler.updateMovesOnBoard(nodesToSwap, playerId);
 		return nodesToSwap;

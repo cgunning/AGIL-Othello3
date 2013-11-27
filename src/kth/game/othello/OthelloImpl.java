@@ -1,5 +1,6 @@
 package kth.game.othello;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
 
@@ -82,19 +83,17 @@ public class OthelloImpl implements Othello {
 	}
 
 	@Override
-	public List<Node> move() {
+	public List<Node> move() throws IllegalStateException {
 		MoveStrategy moveStrategy = playerHandler.getPlayerInTurn()
 				.getMoveStrategy();
 		Node node = moveStrategy.move(playerHandler.getPlayerInTurn().getId(),
 				rules, boardHandler.getBoard());
-		/* TODO */
-		if (node == null) {
-			return null;
-		}
-		List<Node> nodesToSwap = moveHandler.move(playerHandler
+		
+		if(node == null)
+			throw new IllegalStateException();
+
+		return move(playerHandler
 				.getPlayerInTurn().getId(), node.getId());
-		playerHandler.changePlayerInTurn();
-		return nodesToSwap;
 
 	}
 
@@ -103,6 +102,7 @@ public class OthelloImpl implements Othello {
 			throws IllegalArgumentException {
 		List<Node> nodesToSwap = moveHandler.move(playerId, nodeId);
 		playerHandler.changePlayerInTurn();
+		System.out.println(getBoardASCII());
 		return nodesToSwap;
 	}
 
@@ -123,5 +123,30 @@ public class OthelloImpl implements Othello {
 	@Override
 	public Score getScore() {
 		return score;
+	}
+
+	public String getBoardASCII() {
+		List<Node> nodes = boardHandler.getBoard().getNodes();
+		String returnString = "";
+		int sign = 0;
+		HashMap<String, Integer> lookup = new HashMap<String, Integer>();
+		int lastX = 0;
+		for(Node node : nodes) {
+			if(node.getXCoordinate() > lastX) {
+				returnString += "\n";
+				lastX = node.getXCoordinate();
+			}
+			if(node.getOccupantPlayerId() != null) {
+				if(!lookup.keySet().contains(node.getOccupantPlayerId())) {
+					lookup.put(node.getOccupantPlayerId(), sign);
+					sign++;
+				}
+				returnString += lookup.get(node.getOccupantPlayerId()) + " ";
+			} else {
+				returnString += "- ";
+			}
+		}
+		returnString += "\n";
+		return returnString;
 	}
 }

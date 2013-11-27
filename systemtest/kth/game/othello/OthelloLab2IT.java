@@ -32,8 +32,9 @@ public class OthelloLab2IT {
 		listOfMoveStrategies.add(new RandomStrategy());
 		listOfMoveStrategies.add(new MostTurnedNodesStrategy());
 		listOfMoveStrategies.add(new FirstPickStrategy());
-		return listOfMoveStrategies.get(random.nextInt(listOfMoveStrategies
-				.size()));
+//		return listOfMoveStrategies.get(random.nextInt(listOfMoveStrategies
+//				.size()));
+		return new FirstPickStrategy();
 	}
 
 	private OthelloFactory getOthelloFactory() {
