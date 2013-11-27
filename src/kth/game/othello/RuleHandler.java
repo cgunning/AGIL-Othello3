@@ -13,6 +13,7 @@ import kth.game.othello.board.Node;
  * 
  */
 public class RuleHandler {
+	private BoardHandler boardHandler;
 
 	/**
 	 * Enum for all Directions on an othello board
@@ -29,8 +30,6 @@ public class RuleHandler {
 		}
 	}
 
-	private BoardHandler boardHandler;
-
 	/**
 	 * Creates a rulehandlar that takes care of the rules in a othello game
 	 * 
@@ -38,20 +37,6 @@ public class RuleHandler {
 	 */
 	public RuleHandler(BoardHandler boardHandler) {
 		this.boardHandler = boardHandler;
-	}
-
-	/**
-	 * Checks if an ID of a node is a valid ID
-	 * 
-	 * @param nodeId
-	 *            - The ID of the node
-	 * @return True if the ID is valid, false otherwise
-	 */
-	boolean isValidNodeId(String nodeId) {
-		Node node = boardHandler.getNodeFromId(nodeId);
-		if (node == null)
-			return false;
-		return true;
 	}
 
 	/**
