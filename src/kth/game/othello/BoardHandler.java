@@ -38,18 +38,29 @@ class BoardHandler {
 	 */
 	/* TODO */
 	void updateMovesOnBoard(List<Node> nodesToSwap, String playerId) {
+		this.board = new BoardImpl(getSwappedBoardNodes(nodesToSwap, playerId));
+	}
+
+	/**
+	 * Updates the board nodes with the nodes that are to be swapped
+	 * 
+	 * @param nodesToSwap
+	 *            the nodes to swap
+	 * @param playerId
+	 *            the player that are swapping the nodes
+	 * @return
+	 */
+	private List<Node> getSwappedBoardNodes(List<Node> nodesToSwap,
+			String playerId) {
 		List<Node> boardNodes = board.getNodes();
 		for (Node node : nodesToSwap) {
 			NodeImpl nodeToSwap = (NodeImpl) node;
 			nodeToSwap.setOccupantPlayerId(playerId);
-			int xCoordinate = node.getXCoordinate();
-			int yCoordinate = node.getYCoordinate();
-			int index = 8 * xCoordinate + yCoordinate;
-			boardNodes.set(index, nodeToSwap);
-			// boardNodes.set(index, new NodeImpl(xCoordinate, yCoordinate,
-			// playerId));
+			for (int i = 0; i < boardNodes.size(); i++)
+				if (boardNodes.get(i).getId().equals(nodeToSwap.getId()))
+					boardNodes.set(i, nodeToSwap);
 		}
-		this.board = new BoardImpl(boardNodes);
+		return boardNodes;
 	}
 
 	/**

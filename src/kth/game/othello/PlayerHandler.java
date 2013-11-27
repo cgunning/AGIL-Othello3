@@ -1,6 +1,5 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +13,7 @@ import kth.game.othello.player.Player;
  */
 class PlayerHandler {
 
-	ArrayList<Player> players;
+	List<Player> players;
 	Player playerInTurn;
 
 	/**
@@ -26,8 +25,7 @@ class PlayerHandler {
 	PlayerHandler(List<Player> players) {
 		// TODO - Player in turn
 		playerInTurn = players.get(0);
-		this.players = new ArrayList<Player>();
-		this.players.addAll(players);
+		this.players = players;
 	}
 
 	/**
@@ -37,11 +35,11 @@ class PlayerHandler {
 	 *            Id of the player
 	 * @return the Player corresponding to the right Id
 	 */
-	Player getPlayerFromId(String playerId) {
+	Player getPlayerFromId(String playerId) throws IllegalArgumentException {
 		for (Player player : players)
 			if (player.getId().equals(playerId))
 				return player;
-		return null;
+		throw new IllegalArgumentException("No player with ID: " + playerId);
 	}
 
 	/**
@@ -70,25 +68,16 @@ class PlayerHandler {
 	 *            Id for the player in turn
 	 * @return the opponent
 	 */
-	Player getOpponent(String playerId) {
-		int i = players.indexOf(playerInTurn);
-		if (i == players.size() - 1) {
-			return players.get(0);
-		} else {
-			return players.get(i + 1);
-		}
-		// return players.get;
-		// for (Player player : players)
-		// if (!player.getId().equals(playerId))
-		// return player;
-		// return null;
+	Player getNextPlayer(String playerId) throws IllegalArgumentException {
+		int i = players.indexOf(getPlayerFromId(playerId));
+		return players.get((i + 1) % players.size());
 	}
 
 	/**
 	 * Changes the player in turn
 	 */
 	void changePlayerInTurn() {
-		playerInTurn = getOpponent(playerInTurn.getId());
+		playerInTurn = getNextPlayer(playerInTurn.getId());
 	}
 
 	/**

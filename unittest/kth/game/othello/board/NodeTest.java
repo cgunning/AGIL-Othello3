@@ -1,6 +1,7 @@
 package kth.game.othello.board;
 
-import org.junit.Assert;
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 /**
@@ -9,6 +10,7 @@ import org.junit.Test;
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  * 
  */
+@SuppressWarnings("deprecation")
 public class NodeTest {
 
 	/**
