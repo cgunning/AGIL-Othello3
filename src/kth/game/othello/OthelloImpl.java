@@ -1,5 +1,6 @@
 package kth.game.othello;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
@@ -7,6 +8,7 @@ import java.util.Observer;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
+import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.movestrategy.MoveStrategy;
 import kth.game.othello.score.Score;
 import kth.game.othello.score.ScoreImpl;
@@ -26,6 +28,18 @@ public class OthelloImpl implements Othello {
 	private Score score;
 
 	/**
+	 * FOR TESTING PURPOSE ONLY
+	 */
+	private OthelloImpl(MoveHandler moveHandler, PlayerHandler playerHandler,
+			BoardHandler boardHandler, RulesImpl rules, Score score) {
+		this.moveHandler = moveHandler;
+		this.playerHandler = playerHandler;
+		this.boardHandler = boardHandler;
+		this.rules = rules;
+		this.score = score;
+	}
+
+	/**
 	 * Creates an Othello game
 	 * 
 	 * @param blackPlayer
@@ -40,7 +54,8 @@ public class OthelloImpl implements Othello {
 		boardHandler = new BoardHandler(board);
 		rules = new RulesImpl(boardHandler);
 		moveHandler = new MoveHandler(boardHandler, rules);
-		score = new ScoreImpl(players, 2);
+
+		score = new ScoreImpl(players, board);
 	}
 
 	@Override
@@ -84,16 +99,20 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move() throws IllegalStateException {
+		if (playerHandler.getPlayerInTurn().getType() != Type.COMPUTER) {
+			throw new IllegalStateException();
+		}
 		MoveStrategy moveStrategy = playerHandler.getPlayerInTurn()
 				.getMoveStrategy();
 		Node node = moveStrategy.move(playerHandler.getPlayerInTurn().getId(),
 				rules, boardHandler.getBoard());
-		
-		if(node == null)
-			throw new IllegalStateException();
 
-		return move(playerHandler
-				.getPlayerInTurn().getId(), node.getId());
+		if (node == null) {
+			playerHandler.changePlayerInTurn();
+			return new ArrayList<Node>();
+		}
+
+		return move(playerHandler.getPlayerInTurn().getId(), node.getId());
 
 	}
 
@@ -102,7 +121,6 @@ public class OthelloImpl implements Othello {
 			throws IllegalArgumentException {
 		List<Node> nodesToSwap = moveHandler.move(playerId, nodeId);
 		playerHandler.changePlayerInTurn();
-		System.out.println(getBoardASCII());
 		return nodesToSwap;
 	}
 
@@ -125,28 +143,35 @@ public class OthelloImpl implements Othello {
 		return score;
 	}
 
-	public String getBoardASCII() {
-		List<Node> nodes = boardHandler.getBoard().getNodes();
-		String returnString = "";
-		int sign = 0;
-		HashMap<String, Integer> lookup = new HashMap<String, Integer>();
-		int lastX = 0;
-		for(Node node : nodes) {
-			if(node.getXCoordinate() > lastX) {
-				returnString += "\n";
-				lastX = node.getXCoordinate();
-			}
-			if(node.getOccupantPlayerId() != null) {
-				if(!lookup.keySet().contains(node.getOccupantPlayerId())) {
-					lookup.put(node.getOccupantPlayerId(), sign);
-					sign++;
-				}
-				returnString += lookup.get(node.getOccupantPlayerId()) + " ";
-			} else {
-				returnString += "- ";
-			}
-		}
-		returnString += "\n";
-		return returnString;
-	}
+	HashMap<String, Integer> lookup = new HashMap<String, Integer>();
+
+	/**
+	 * Get a board on ASCII format, cool! For testing
+	 */
+	// public String getBoardASCII() {
+	// String returnString = "";
+	// int sign = 1;
+	// Board board = boardHandler.getBoard();
+	// for (int i = 0; i < 11; i++) {
+	// for (int j = 0; j < 11; j++) {
+	// try {
+	// Node node = board.getNode(i, j);
+	// if (node.getOccupantPlayerId() == null) {
+	// returnString += "- ";
+	// continue;
+	// }
+	// if (!lookup.keySet().contains(node.getOccupantPlayerId())) {
+	// lookup.put(node.getOccupantPlayerId(), sign);
+	// sign++;
+	// }
+	// returnString += lookup.get(node.getOccupantPlayerId())
+	// + " ";
+	// } catch (IllegalArgumentException e) {
+	// returnString += "x ";
+	// }
+	// }
+	// returnString += "\n";
+	// }
+	// return returnString;
+	// }
 }

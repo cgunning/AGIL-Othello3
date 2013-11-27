@@ -1,6 +1,5 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import kth.game.othello.board.Node;
@@ -22,12 +21,12 @@ public class MoveHandler {
 	 * 
 	 * @param boardHandler
 	 *            A BoardHandler
-	 * @param ruleHelper
+	 * @param rules
 	 *            A RuleHelper
 	 */
-	MoveHandler(BoardHandler boardHandler, RulesImpl ruleHelper) {
+	MoveHandler(BoardHandler boardHandler, RulesImpl rules) {
 		this.boardHandler = boardHandler;
-		this.rules = ruleHelper;
+		this.rules = rules;
 	}
 
 	/**
@@ -38,7 +37,8 @@ public class MoveHandler {
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */
-	List<Node> move(String playerId, MoveStrategy moveStrategy) throws IllegalStateException {
+	List<Node> move(String playerId, MoveStrategy moveStrategy)
+			throws IllegalStateException {
 		Node node = moveStrategy.move(playerId, rules, boardHandler.getBoard());
 		if (node == null) {
 			throw new IllegalStateException();
@@ -61,11 +61,12 @@ public class MoveHandler {
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */
-	List<Node> move(String playerId, String nodeId) throws IllegalArgumentException {
+	List<Node> move(String playerId, String nodeId)
+			throws IllegalArgumentException {
 		// TODO Check so that the id is in the range of the game
-		 if (!rules.isMoveValid(playerId, nodeId))
-			 throw new IllegalArgumentException();
-		 
+		if (!rules.isMoveValid(playerId, nodeId))
+			throw new IllegalArgumentException();
+
 		List<Node> nodesToSwap = rules.getNodesToSwap(playerId, nodeId);
 		boardHandler.updateMovesOnBoard(nodesToSwap, playerId);
 		return nodesToSwap;

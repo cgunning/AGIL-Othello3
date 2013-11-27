@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import kth.game.othello.board.Board;
+import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
 import kth.game.othello.player.Player;
 
@@ -25,24 +27,31 @@ public class ScoreImplTest {
 		when(player2.getId()).thenReturn("2");
 		players.add(player1);
 		players.add(player2);
-
-		ScoreImpl scores = new ScoreImpl(players, 2);
+		Board board = mock(Board.class);
+		ScoreImpl scores = new ScoreImpl(players, board);
 		when(node.getOccupantPlayerId()).thenReturn("2");
 		scores.update(node, null);
-		Assert.assertEquals(3, scores.getPoints("2"));
+		Assert.assertEquals(1, scores.getPoints("2"));
 
 		when(node.getOccupantPlayerId()).thenReturn("1");
 		scores.update(node, "2");
-		Assert.assertEquals(3, scores.getPoints("1"));
-		Assert.assertEquals(2, scores.getPoints("2"));
+		Assert.assertEquals(1, scores.getPoints("1"));
+		Assert.assertEquals(0, scores.getPoints("2"));
 	}
 
 	@Test
 	public void testConstructorWithScore() {
 		List<Player> players = createAmountOfPlayers(2);
-		ScoreImpl scores = new ScoreImpl(players, 2);
-		Assert.assertEquals(2, scores.getPoints("0"));
-		Assert.assertEquals(2, scores.getPoints("1"));
+		Board board = mock(Board.class);
+		Node node = mock(Node.class);
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(node);
+		when(node.getOccupantPlayerId()).thenReturn("0");
+		when(board.getNodes()).thenReturn(nodes);
+		ScoreImpl scores = new ScoreImpl(players, board);
+
+		Assert.assertEquals(1, scores.getPoints("0"));
+		Assert.assertEquals(0, scores.getPoints("1"));
 		Assert.assertEquals(-1, scores.getPoints("2"));
 		Assert.assertEquals(2, scores.getPlayersScore().size());
 
@@ -51,14 +60,15 @@ public class ScoreImplTest {
 	@Test
 	public void testWithAmountOfPlayers() {
 		List<Player> players = createAmountOfPlayers(6);
-		ScoreImpl scores = new ScoreImpl(players, 2);
+		Board board = mock(Board.class);
+		ScoreImpl scores = new ScoreImpl(players, board);
 		Assert.assertEquals(6, scores.getPlayersScore().size());
 
 		players = createAmountOfPlayers(40);
-		scores = new ScoreImpl(players, 2);
+		scores = new ScoreImpl(players, board);
 		Assert.assertEquals(40, scores.getPlayersScore().size());
 
-		Assert.assertEquals(2, scores.getPoints("30"));
+		Assert.assertEquals(0, scores.getPoints("30"));
 	}
 
 	public List<Player> createAmountOfPlayers(int amount) {

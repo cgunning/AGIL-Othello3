@@ -15,7 +15,7 @@ import org.junit.Test;
 public class RuleHandlerTest {
 
 	@Test
-	public void testGetNodesToSwap2() {
+	public void testGetNodesToSwap() {
 		RuleHandler ruleHandler = createRuleHandler();
 		Assert.assertEquals(2, ruleHandler.getNodesToSwap("2", "0:1").size());
 		Assert.assertEquals(0, ruleHandler.getNodesToSwap("1", "0:1").size());
@@ -33,9 +33,9 @@ public class RuleHandlerTest {
 	@Test
 	public void testIsValidMove() {
 		RuleHandler ruleHandler = createRuleHandler();
-		Assert.assertEquals(true, ruleHandler.hasValidMove("2"));
-		Assert.assertEquals(true, ruleHandler.hasValidMove("1"));
-		Assert.assertEquals(false, ruleHandler.hasValidMove("0"));
+		Assert.assertEquals(true, ruleHandler.isMoveValid("2", "0:1"));
+		Assert.assertEquals(true, ruleHandler.isMoveValid("1", "0:2"));
+		Assert.assertEquals(false, ruleHandler.isMoveValid("0", "0:1"));
 	}
 
 	public RuleHandler createRuleHandler() {

@@ -42,14 +42,11 @@ public class BoardHandlerTest {
 		BoardHandler boardHandler = new BoardHandler(board);
 		List<Node> swappedNodes = null;
 		try {
-			System.out.println("1");
 			Method getSwappedBoardNodes = boardHandler.getClass()
 					.getDeclaredMethod("getSwappedBoardNodes", List.class,
 							String.class);
 
-			System.out.println("2");
 			getSwappedBoardNodes.setAccessible(true);
-			System.out.println("3");
 			swappedNodes = (List<Node>) getSwappedBoardNodes.invoke(
 					boardHandler, nodesToSwap, playerId);
 		} catch (Exception useless) {

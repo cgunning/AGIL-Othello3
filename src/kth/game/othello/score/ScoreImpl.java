@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
 
@@ -12,12 +13,26 @@ public class ScoreImpl extends Observable implements Score, Observer {
 
 	List<ScoreItem> playersScore;
 
-	public ScoreImpl(List<Player> players, int startScore) {
+	public ScoreImpl(List<Player> players, Board board) {
 		playersScore = new ArrayList<ScoreItem>();
-		for (Player player : players) {
-			playersScore.add(new ScoreItem(player.getId(), 2));
-		}
 
+		for (Player player : players) {
+			playersScore.add(new ScoreItem(player.getId(), 0));
+		}
+		initScore(board);
+	}
+
+	private void initScore(Board board) {
+		for (Node node : board.getNodes()) {
+			if (node.getOccupantPlayerId() != null) {
+				for (ScoreItem playerScore : playersScore) {
+					if (playerScore.getPlayerId().equals(
+							node.getOccupantPlayerId())) {
+						playerScore.setScore(playerScore.getScore() + 1);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

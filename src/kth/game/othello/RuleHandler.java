@@ -77,7 +77,7 @@ public class RuleHandler {
 				newNode = board.getNode(node.getXCoordinate() + d.x,
 						node.getYCoordinate() + d.y);
 			} catch (IllegalArgumentException e) {
-				return new ArrayList<Node>();
+				continue;
 			}
 			while (newNode != null) {
 				if (newNode.isMarked()) {
@@ -85,6 +85,8 @@ public class RuleHandler {
 						if (!newNode.getOccupantPlayerId().equals(playerId)) {
 							foundOpponent = true;
 							nodesToSwapInDirection.add(newNode);
+						} else {
+							break;
 						}
 					} else {
 						if (!newNode.getOccupantPlayerId().equals(playerId)) {
@@ -97,8 +99,9 @@ public class RuleHandler {
 							break;
 						}
 					}
+				} else {
+					break;
 				}
-
 				try {
 					newNode = board.getNode(newNode.getXCoordinate() + d.x,
 							newNode.getYCoordinate() + d.y);
