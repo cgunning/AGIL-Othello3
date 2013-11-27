@@ -1,8 +1,8 @@
 package kth.game.othello.player;
 
-import junit.framework.Assert;
 import kth.game.othello.player.Player.Type;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  * 
  */
-@SuppressWarnings("deprecation")
+
 public class PlayerTest {
 
 	@Test
