@@ -26,7 +26,7 @@ public class ScoreImplTest {
 		players.add(player1);
 		players.add(player2);
 
-		ScoreImpl scores = new ScoreImpl(players);
+		ScoreImpl scores = new ScoreImpl(players, 2);
 		when(node.getOccupantPlayerId()).thenReturn("2");
 		scores.update(node, null);
 		Assert.assertEquals(3, scores.getPoints("2"));
@@ -40,7 +40,7 @@ public class ScoreImplTest {
 	@Test
 	public void testConstructorWithScore() {
 		List<Player> players = createAmountOfPlayers(2);
-		ScoreImpl scores = new ScoreImpl(players);
+		ScoreImpl scores = new ScoreImpl(players, 2);
 		Assert.assertEquals(2, scores.getPoints("0"));
 		Assert.assertEquals(2, scores.getPoints("1"));
 		Assert.assertEquals(-1, scores.getPoints("2"));
@@ -51,11 +51,11 @@ public class ScoreImplTest {
 	@Test
 	public void testWithAmountOfPlayers() {
 		List<Player> players = createAmountOfPlayers(6);
-		ScoreImpl scores = new ScoreImpl(players);
+		ScoreImpl scores = new ScoreImpl(players, 2);
 		Assert.assertEquals(6, scores.getPlayersScore().size());
 
 		players = createAmountOfPlayers(40);
-		scores = new ScoreImpl(players);
+		scores = new ScoreImpl(players, 2);
 		Assert.assertEquals(40, scores.getPlayersScore().size());
 
 		Assert.assertEquals(2, scores.getPoints("30"));

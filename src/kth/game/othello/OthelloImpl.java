@@ -40,7 +40,7 @@ public class OthelloImpl implements Othello {
 		boardHandler = new BoardHandler(board);
 		rules = new RulesImpl(boardHandler);
 		moveHandler = new MoveHandler(boardHandler, rules);
-		score = new ScoreImpl(players);
+		score = new ScoreImpl(players, 2);
 	}
 
 	@Override

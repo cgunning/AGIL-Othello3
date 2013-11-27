@@ -68,7 +68,6 @@ public class RuleHandler {
 			return new ArrayList<Node>();
 
 		List<Node> nodesToSwap = new ArrayList<Node>();
-		nodesToSwap.add(node);
 		for (Direction d : Direction.values()) {
 			Node newNode = null;
 			boolean foundOpponent = false;
@@ -107,6 +106,9 @@ public class RuleHandler {
 					break;
 				}
 			}
+		}
+		if (nodesToSwap.size() > 0) {
+			nodesToSwap.add(node);
 		}
 		return nodesToSwap;
 	}
