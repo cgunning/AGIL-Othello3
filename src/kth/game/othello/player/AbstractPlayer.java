@@ -8,26 +8,29 @@ import kth.game.othello.player.movestrategy.MoveStrategy;
  * Abstract class for player
  * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
- *
+ * 
  */
 public abstract class AbstractPlayer implements Player {
-	
+
 	private UUID id;
 	private String name;
 	private Type type;
 	private MoveStrategy moveStrategy;
-	
+
 	/**
 	 * Creates a new abstract player
-	 * @param name Name for the player
-	 * @param type Type of the player
+	 * 
+	 * @param name
+	 *            Name for the player
+	 * @param type
+	 *            Type of the player
 	 */
 	public AbstractPlayer(String name, Type type) {
 		this.name = name;
 		this.id = UUID.randomUUID();
 		this.type = type;
 	}
-	
+
 	@Override
 	public String getId() {
 		return id.toString();
@@ -44,14 +47,21 @@ public abstract class AbstractPlayer implements Player {
 	}
 
 	@Override
-	public MoveStrategy getMoveStrategy() {
+	public MoveStrategy getMoveStrategy() throws UnsupportedOperationException {
+		if (type == Type.HUMAN) {
+			throw new UnsupportedOperationException();
+		}
 		return moveStrategy;
 	}
 
 	@Override
-	public void setMoveStrategy(MoveStrategy moveStrategy) {
+	public void setMoveStrategy(MoveStrategy moveStrategy)
+			throws UnsupportedOperationException {
+		if (type == Type.HUMAN) {
+			throw new UnsupportedOperationException();
+		}
 		this.moveStrategy = moveStrategy;
-		
+
 	}
 
 }

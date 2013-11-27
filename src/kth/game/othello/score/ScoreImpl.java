@@ -12,11 +12,12 @@ public class ScoreImpl extends Observable implements Score, Observer {
 
 	List<ScoreItem> playersScore;
 
-	public ScoreImpl(List<Player> players) {
+	public ScoreImpl(List<Player> players, int startScore) {
 		playersScore = new ArrayList<ScoreItem>();
 		for (Player player : players) {
 			playersScore.add(new ScoreItem(player.getId(), 2));
 		}
+
 	}
 
 	@Override

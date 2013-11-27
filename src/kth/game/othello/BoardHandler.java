@@ -48,7 +48,7 @@ class BoardHandler {
 	 *            the nodes to swap
 	 * @param playerId
 	 *            the player that are swapping the nodes
-	 * @return
+	 * @return List of the nodes that were swapped
 	 */
 	private List<Node> getSwappedBoardNodes(List<Node> nodesToSwap,
 			String playerId) {
