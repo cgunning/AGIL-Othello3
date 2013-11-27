@@ -23,7 +23,6 @@ class PlayerHandler {
 	 *            The players that plays the game
 	 */
 	PlayerHandler(List<Player> players) {
-		// TODO - Player in turn
 		playerInTurn = players.get(0);
 		this.players = players;
 	}
@@ -62,11 +61,11 @@ class PlayerHandler {
 	}
 
 	/**
-	 * Method for getting the opponent
+	 * Method for getting the next player in turn
 	 * 
 	 * @param currentPlayerId
 	 *            Id for the player in turn
-	 * @return the opponent
+	 * @return The next player in turn
 	 */
 	Player getNextPlayer(String playerId) throws IllegalArgumentException {
 		int i = players.indexOf(getPlayerFromId(playerId));

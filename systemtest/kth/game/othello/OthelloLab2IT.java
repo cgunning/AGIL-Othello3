@@ -34,7 +34,6 @@ public class OthelloLab2IT {
 		listOfMoveStrategies.add(new FirstPickStrategy());
 		return listOfMoveStrategies.get(random.nextInt(listOfMoveStrategies
 				.size()));
-		// return new FirstPickStrategy();
 	}
 
 	private OthelloFactory getOthelloFactory() {
@@ -82,7 +81,6 @@ public class OthelloLab2IT {
 		players.add(getPlayerCreator().createComputerPlayer("orange"));
 		int boardSize = 11;
 		Board board = boardFactory.getDiamondBoard(players, boardSize);
-		System.out.println(board.toString());
 		Othello othello = getOthelloFactory().createGame(board, players);
 		othello.start();
 		while (othello.isActive()) {

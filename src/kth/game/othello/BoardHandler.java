@@ -36,7 +36,6 @@ class BoardHandler {
 	 * @param playerId
 	 *            The Id of the player who is swapping the nodes
 	 */
-	/* TODO */
 	void updateMovesOnBoard(List<Node> nodesToSwap, String playerId) {
 		this.board = new BoardImpl(getSwappedBoardNodes(nodesToSwap, playerId));
 	}

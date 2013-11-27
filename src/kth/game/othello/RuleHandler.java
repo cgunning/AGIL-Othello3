@@ -7,12 +7,14 @@ import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 
 /**
- * A class to
+ * A class that handles the rules for an Othello game
  * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  * 
  */
 public class RuleHandler {
+
+	private BoardHandler boardHandler;
 
 	/**
 	 * Enum for all Directions on an othello board
@@ -29,12 +31,11 @@ public class RuleHandler {
 		}
 	}
 
-	private BoardHandler boardHandler;
-
 	/**
-	 * Creates a rulehandlar that takes care of the rules in a othello game
+	 * Creates a rulehandler that takes care of the rules in a othello game
 	 * 
 	 * @param boardHandler
+	 *            The boardhandler for this RuleHandler
 	 */
 	public RuleHandler(BoardHandler boardHandler) {
 		this.boardHandler = boardHandler;
@@ -44,7 +45,7 @@ public class RuleHandler {
 	 * Checks if an ID of a node is a valid ID
 	 * 
 	 * @param nodeId
-	 *            - The ID of the node
+	 *            The ID of the node
 	 * @return True if the ID is valid, false otherwise
 	 */
 	boolean isValidNodeId(String nodeId) {
@@ -55,11 +56,15 @@ public class RuleHandler {
 	}
 
 	/**
-	 * TODO
+	 * Returns the nodes to be swapped if played with a certain playerId and
+	 * nodeId
 	 * 
 	 * @param playerId
+	 *            The player id of the one who makes the swap
 	 * @param nodeId
-	 * @return
+	 *            The node Id for the node to make the swap
+	 * @return List of all nodes that will be swapped if this node is played on,
+	 *         including the one that corresponds to the param nodeId
 	 */
 	List<Node> getNodesToSwap(String playerId, String nodeId) {
 		Node node = boardHandler.getNodeFromId(nodeId);

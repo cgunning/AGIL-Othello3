@@ -34,6 +34,8 @@ public class MoveHandler {
 	 * 
 	 * @param playerId
 	 *            The id of the player who wants to make the move
+	 * @param moveStrategy
+	 *            The movestrategy to be used for the computer move
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */

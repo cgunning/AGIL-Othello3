@@ -1,7 +1,6 @@
 package kth.game.othello;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
 
@@ -42,10 +41,8 @@ public class OthelloImpl implements Othello {
 	/**
 	 * Creates an Othello game
 	 * 
-	 * @param blackPlayer
-	 *            The black player
-	 * @param whitePlayer
-	 *            The white player
+	 * @param players
+	 *            The list of players in the othello game
 	 * @param board
 	 *            Board to be played at
 	 */
@@ -143,11 +140,10 @@ public class OthelloImpl implements Othello {
 		return score;
 	}
 
-	HashMap<String, Integer> lookup = new HashMap<String, Integer>();
-
 	/**
 	 * Get a board on ASCII format, cool! For testing
 	 */
+	// HashMap<String, Integer> lookup = new HashMap<String, Integer>();
 	// public String getBoardASCII() {
 	// String returnString = "";
 	// int sign = 1;
