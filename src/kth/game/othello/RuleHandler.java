@@ -65,7 +65,7 @@ public class RuleHandler {
 			} catch (IllegalArgumentException e) {
 				return new ArrayList<Node>();
 			}
-			while (true) {
+			while (newNode != null) {
 				if (newNode.isMarked()) {
 					if (!foundOpponent) {
 						if (!newNode.getOccupantPlayerId().equals(playerId)) {
