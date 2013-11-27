@@ -67,7 +67,6 @@ public class OthelloLab2IT {
 		Othello othello = getOthelloFactory()
 				.createHumanVersusComputerGameOnOriginalBoard();
 		String playerId = othello.getPlayers().get(0).getId();
-		String playerId2 = othello.getPlayers().get(1).getId();
 		othello.start(playerId);
 		othello.move(playerId, othello.getBoard().getNode(5, 3).getId());
 		Assert.assertEquals(4, othello.getScore().getPoints(playerId));

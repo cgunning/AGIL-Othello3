@@ -26,7 +26,13 @@ public class ScoreItem {
 	public int getScore() {
 		return score;
 	}
-	
+
+	/**
+	 * Set the score of the ScoreItem
+	 * 
+	 * @param score
+	 *            The new score to be set
+	 */
 	void setScore(int score) {
 		this.score = score;
 	}
