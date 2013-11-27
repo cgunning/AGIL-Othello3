@@ -68,7 +68,6 @@ public class ScoreImplTest {
 			when(player.getId()).thenReturn(i + "");
 			players.add(player);
 		}
-
 		return players;
 	}
 }
