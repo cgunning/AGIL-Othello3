@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kth.game.othello.board.Node;
+import kth.game.othello.player.movestrategy.MoveStrategy;
 
 /**
  * Class that handles moves on a Othello board
@@ -30,21 +31,20 @@ public class MoveHandler {
 	}
 
 	/**
-	 * Method that chooses a random valid move to be played
+	 * Method that does a computer move with different strategies.
 	 * 
 	 * @param playerId
 	 *            The id of the player who wants to make the move
 	 * @return List<Node> The list of the nodes that will be effected for that
 	 *         move
 	 */
-	List<Node> move(String playerId) {
-		List<Node> nodes = boardHandler.getBoard().getNodes();
-		for (Node node : nodes) {
-			if (rules.isMoveValid(playerId, node.getId())) {
-				return move(playerId, node.getId());
-			}
+	List<Node> move(String playerId, MoveStrategy moveStrategy) {
+		Node node = moveStrategy.move(playerId, rules, boardHandler.getBoard());
+		if (node == null) {
+			return new ArrayList<Node>();
+		} else {
+			return move(playerId, node.getId());
 		}
-		return new ArrayList<Node>();
 	}
 
 	/**
