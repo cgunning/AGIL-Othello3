@@ -14,8 +14,6 @@ import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.movestrategy.MoveStrategy;
 import kth.game.othello.score.Score;
 import kth.game.othello.score.ScoreImpl;
-import kth.game.othello.view.swing.OthelloView;
-import kth.game.othello.view.swing.OthelloViewFactory;
 
 /**
  * This class represents an Othello game.
@@ -32,7 +30,6 @@ public class OthelloImpl extends Observable implements Othello {
 	private RulesImpl rules;
 	private Score score;
 	MoveObserver moveObserver;
-	OthelloView othelloView;
 
 	/**
 	 * FOR TESTING PURPOSE ONLY
@@ -48,8 +45,6 @@ public class OthelloImpl extends Observable implements Othello {
 
 		moveObserver = new MoveObserver();
 
-		othelloView = OthelloViewFactory.create(this, 50, 100);
-		othelloView.start();
 	}
 
 	/**
@@ -70,9 +65,6 @@ public class OthelloImpl extends Observable implements Othello {
 		moveObserver = new MoveObserver();
 
 		score = new ScoreImpl(players, board);
-
-		othelloView = OthelloViewFactory.create(this, 50, 100);
-		othelloView.start();
 	}
 
 	@Override
@@ -111,7 +103,6 @@ public class OthelloImpl extends Observable implements Othello {
 
 	private void checkIsGameFinished() {
 		if (!isActive()) {
-			System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAAAAJS");
 			setChanged();
 			notifyObservers();
 		}
@@ -127,6 +118,7 @@ public class OthelloImpl extends Observable implements Othello {
 		if (playerHandler.getPlayerInTurn().getType() != Type.COMPUTER) {
 			throw new IllegalStateException();
 		}
+		// game.start()
 		MoveStrategy moveStrategy = playerHandler.getPlayerInTurn()
 				.getMoveStrategy();
 		Node node = moveStrategy.move(playerHandler.getPlayerInTurn().getId(),
@@ -180,6 +172,7 @@ public class OthelloImpl extends Observable implements Othello {
 	@Override
 	public void addMoveObserver(Observer observer) {
 		moveObserver.addObserver(observer);
+		// score.addObserver(observer);
 	}
 
 	@Override

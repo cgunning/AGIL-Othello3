@@ -76,7 +76,8 @@ public class ScoreImpl extends Observable implements Score, Observer {
 				updatedScorePlayerIds.add(score.getPlayerId());
 			}
 		}
-		super.notifyObservers(updatedScorePlayerIds);
+		setChanged();
+		notifyObservers(updatedScorePlayerIds);
 
 	}
 }
