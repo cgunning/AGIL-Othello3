@@ -140,6 +140,24 @@ public class OthelloImpl implements Othello {
 		return score;
 	}
 
+	@Override
+	public void addGameFinishedObserver(Observer observer) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addMoveObserver(Observer observer) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Get a board on ASCII format, cool! For testing
 	 */

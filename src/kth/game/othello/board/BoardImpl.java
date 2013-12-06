@@ -35,4 +35,22 @@ public class BoardImpl implements Board {
 				return node;
 		throw new IllegalArgumentException("No such node");
 	}
+
+	@Override
+	public int getMaxX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMaxY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean hasNode(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
