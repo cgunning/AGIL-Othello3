@@ -20,6 +20,7 @@ public class BoardImpl implements Board {
 	 *            - The nodes of the structure
 	 */
 	public BoardImpl(List<Node> nodes) {
+
 		this.nodes = nodes;
 	}
 
@@ -38,19 +39,30 @@ public class BoardImpl implements Board {
 
 	@Override
 	public int getMaxX() {
-		// TODO Auto-generated method stub
-		return 0;
+		int maxX = 0;
+		for (Node node : nodes)
+			if (node.getXCoordinate() > maxX)
+				maxX = node.getXCoordinate();
+		return maxX;
 	}
 
 	@Override
 	public int getMaxY() {
-		// TODO Auto-generated method stub
-		return 0;
+		int maxY = 0;
+		for (Node node : nodes)
+			if (node.getYCoordinate() > maxY)
+				maxY = node.getYCoordinate();
+		return maxY;
 	}
 
 	@Override
 	public boolean hasNode(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			getNode(x, y);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+
+		return true;
 	}
 }

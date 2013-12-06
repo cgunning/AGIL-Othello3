@@ -3,14 +3,19 @@ package kth.game.othello;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import java.util.UUID;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
+import kth.game.othello.observer.GameFinishedObserver;
+import kth.game.othello.observer.MoveObserver;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.movestrategy.MoveStrategy;
 import kth.game.othello.score.Score;
 import kth.game.othello.score.ScoreImpl;
+import kth.game.othello.view.swing.OthelloView;
+import kth.game.othello.view.swing.OthelloViewFactory;
 
 /**
  * This class represents an Othello game.
@@ -20,17 +25,21 @@ import kth.game.othello.score.ScoreImpl;
  */
 public class OthelloImpl implements Othello {
 
+	private UUID id;
 	private MoveHandler moveHandler;
 	private PlayerHandler playerHandler;
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
 	private Score score;
+	MoveObserver moveObserver;
+	GameFinishedObserver gameFinishedObserver;
 
 	/**
 	 * FOR TESTING PURPOSE ONLY
 	 */
 	private OthelloImpl(MoveHandler moveHandler, PlayerHandler playerHandler,
 			BoardHandler boardHandler, RulesImpl rules, Score score) {
+		this.id = UUID.randomUUID();
 		this.moveHandler = moveHandler;
 		this.playerHandler = playerHandler;
 		this.boardHandler = boardHandler;
@@ -47,6 +56,7 @@ public class OthelloImpl implements Othello {
 	 *            Board to be played at
 	 */
 	public OthelloImpl(List<Player> players, Board board) {
+		this.id = UUID.randomUUID();
 		playerHandler = new PlayerHandler(players);
 		boardHandler = new BoardHandler(board);
 		rules = new RulesImpl(boardHandler);
@@ -89,6 +99,11 @@ public class OthelloImpl implements Othello {
 		return false;
 	}
 
+	private void checkIsGameFinished() {
+		if (!isActive())
+			gameFinishedObserver.notifyAll();
+	}
+
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
 		return rules.isMoveValid(playerId, nodeId);
@@ -118,17 +133,23 @@ public class OthelloImpl implements Othello {
 			throws IllegalArgumentException {
 		List<Node> nodesToSwap = moveHandler.move(playerId, nodeId);
 		playerHandler.changePlayerInTurn();
+		moveObserver.notifyObservers(nodesToSwap);
+		checkIsGameFinished();
 		return nodesToSwap;
 	}
 
 	@Override
 	public void start() {
 		Player player = playerHandler.getRandomPlayer();
+
 		start(player.getId());
 	}
 
 	@Override
 	public void start(String playerId) {
+		OthelloView othelloView = OthelloViewFactory.create(this, 100, 100);
+
+		othelloView.start();
 		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
 		for (Node node : boardHandler.getBoard().getNodes()) {
 			node.addObserver((Observer) score);
@@ -142,20 +163,22 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void addGameFinishedObserver(Observer observer) {
-		// TODO Auto-generated method stub
-
+		if (gameFinishedObserver == null)
+			gameFinishedObserver = new GameFinishedObserver();
+		gameFinishedObserver.addObserver(observer);
 	}
 
 	@Override
 	public void addMoveObserver(Observer observer) {
-		// TODO Auto-generated method stub
+		if (moveObserver == null)
+			moveObserver = new MoveObserver();
 
+		moveObserver.addObserver(observer);
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return id.toString();
 	}
 
 	/**
