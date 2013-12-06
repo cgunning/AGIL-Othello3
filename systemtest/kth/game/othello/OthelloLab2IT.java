@@ -50,10 +50,11 @@ public class OthelloLab2IT {
 			Assert.assertEquals(Type.COMPUTER, othello.getPlayerInTurn()
 					.getType());
 			othello.move();
+
 		}
 	}
 
-	@Test
+	// @Test
 	public void studyTheInitialScoreTest() {
 		Othello othello = getOthelloFactory()
 				.createHumanVersusComputerGameOnOriginalBoard();
@@ -72,7 +73,7 @@ public class OthelloLab2IT {
 		Assert.assertEquals(4, othello.getScore().getPoints(playerId));
 	}
 
-	@Test
+	// @Test
 	public void threeComputersOnADiamondBoardTest() {
 		BoardFactory boardFactory = getBoardFactory();
 		List<Player> players = new ArrayList<Player>();

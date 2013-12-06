@@ -10,4 +10,8 @@ public class GameFinishedObserver extends Observable {
 		super.addObserver(o);
 	}
 
+	@Override
+	public void setChanged() {
+		super.setChanged();
+	}
 }

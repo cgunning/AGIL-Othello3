@@ -9,4 +9,9 @@ public class MoveObserver extends Observable {
 	public void addObserver(Observer o) {
 		super.addObserver(o);
 	}
+
+	@Override
+	public void setChanged() {
+		super.setChanged();
+	}
 }

@@ -2,12 +2,12 @@ package kth.game.othello;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 import java.util.UUID;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.observer.GameFinishedObserver;
 import kth.game.othello.observer.MoveObserver;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
@@ -23,7 +23,7 @@ import kth.game.othello.view.swing.OthelloViewFactory;
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  * 
  */
-public class OthelloImpl implements Othello {
+public class OthelloImpl extends Observable implements Othello {
 
 	private UUID id;
 	private MoveHandler moveHandler;
@@ -32,7 +32,7 @@ public class OthelloImpl implements Othello {
 	private RulesImpl rules;
 	private Score score;
 	MoveObserver moveObserver;
-	GameFinishedObserver gameFinishedObserver;
+	OthelloView othelloView;
 
 	/**
 	 * FOR TESTING PURPOSE ONLY
@@ -45,6 +45,11 @@ public class OthelloImpl implements Othello {
 		this.boardHandler = boardHandler;
 		this.rules = rules;
 		this.score = score;
+
+		moveObserver = new MoveObserver();
+
+		othelloView = OthelloViewFactory.create(this, 50, 100);
+		othelloView.start();
 	}
 
 	/**
@@ -62,7 +67,12 @@ public class OthelloImpl implements Othello {
 		rules = new RulesImpl(boardHandler);
 		moveHandler = new MoveHandler(boardHandler, rules);
 
+		moveObserver = new MoveObserver();
+
 		score = new ScoreImpl(players, board);
+
+		othelloView = OthelloViewFactory.create(this, 50, 100);
+		othelloView.start();
 	}
 
 	@Override
@@ -100,8 +110,11 @@ public class OthelloImpl implements Othello {
 	}
 
 	private void checkIsGameFinished() {
-		if (!isActive())
-			gameFinishedObserver.notifyAll();
+		if (!isActive()) {
+			System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAAAAJS");
+			setChanged();
+			notifyObservers();
+		}
 	}
 
 	@Override
@@ -133,6 +146,7 @@ public class OthelloImpl implements Othello {
 			throws IllegalArgumentException {
 		List<Node> nodesToSwap = moveHandler.move(playerId, nodeId);
 		playerHandler.changePlayerInTurn();
+		moveObserver.setChanged();
 		moveObserver.notifyObservers(nodesToSwap);
 		checkIsGameFinished();
 		return nodesToSwap;
@@ -147,9 +161,6 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void start(String playerId) {
-		OthelloView othelloView = OthelloViewFactory.create(this, 100, 100);
-
-		othelloView.start();
 		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
 		for (Node node : boardHandler.getBoard().getNodes()) {
 			node.addObserver((Observer) score);
@@ -163,16 +174,11 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void addGameFinishedObserver(Observer observer) {
-		if (gameFinishedObserver == null)
-			gameFinishedObserver = new GameFinishedObserver();
-		gameFinishedObserver.addObserver(observer);
+		addObserver(observer);
 	}
 
 	@Override
 	public void addMoveObserver(Observer observer) {
-		if (moveObserver == null)
-			moveObserver = new MoveObserver();
-
 		moveObserver.addObserver(observer);
 	}
 
