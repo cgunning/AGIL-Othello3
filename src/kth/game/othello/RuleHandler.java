@@ -78,12 +78,12 @@ public class RuleHandler {
 			boolean foundOpponent = false;
 			List<Node> nodesToSwapInDirection = new ArrayList<Node>();
 
-			try {
-				newNode = board.getNode(node.getXCoordinate() + d.x,
-						node.getYCoordinate() + d.y);
-			} catch (IllegalArgumentException e) {
+			if (!board.hasNode(node.getXCoordinate() + d.x,
+					node.getYCoordinate() + d.y)) {
 				continue;
 			}
+			newNode = board.getNode(node.getXCoordinate() + d.x,
+					node.getYCoordinate() + d.y);
 			while (newNode != null) {
 				if (newNode.isMarked()) {
 					if (!foundOpponent) {
@@ -107,12 +107,11 @@ public class RuleHandler {
 				} else {
 					break;
 				}
-				try {
-					newNode = board.getNode(newNode.getXCoordinate() + d.x,
-							newNode.getYCoordinate() + d.y);
-				} catch (IllegalArgumentException e) {
+				if (!board.hasNode(newNode.getXCoordinate() + d.x,
+						newNode.getYCoordinate() + d.y))
 					break;
-				}
+				newNode = board.getNode(newNode.getXCoordinate() + d.x,
+						newNode.getYCoordinate() + d.y);
 			}
 		}
 		if (nodesToSwap.size() > 0) {

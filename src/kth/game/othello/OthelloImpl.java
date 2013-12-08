@@ -57,14 +57,12 @@ public class OthelloImpl extends Observable implements Othello {
 	 */
 	public OthelloImpl(List<Player> players, Board board) {
 		this.id = UUID.randomUUID();
-		playerHandler = new PlayerHandler(players);
-		boardHandler = new BoardHandler(board);
-		rules = new RulesImpl(boardHandler);
-		moveHandler = new MoveHandler(boardHandler, rules);
-
-		moveObserver = new MoveObserver();
-
-		score = new ScoreImpl(players, board);
+		this.playerHandler = new PlayerHandler(players);
+		this.boardHandler = new BoardHandler(board);
+		this.rules = new RulesImpl(boardHandler);
+		this.moveHandler = new MoveHandler(boardHandler, rules);
+		this.moveObserver = new MoveObserver();
+		this.score = new ScoreImpl(players, board);
 	}
 
 	@Override
@@ -101,13 +99,6 @@ public class OthelloImpl extends Observable implements Othello {
 		return false;
 	}
 
-	private void checkIsGameFinished() {
-		if (!isActive()) {
-			setChanged();
-			notifyObservers();
-		}
-	}
-
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
 		return rules.isMoveValid(playerId, nodeId);
@@ -118,7 +109,6 @@ public class OthelloImpl extends Observable implements Othello {
 		if (playerHandler.getPlayerInTurn().getType() != Type.COMPUTER) {
 			throw new IllegalStateException();
 		}
-		// game.start()
 		MoveStrategy moveStrategy = playerHandler.getPlayerInTurn()
 				.getMoveStrategy();
 		Node node = moveStrategy.move(playerHandler.getPlayerInTurn().getId(),
@@ -147,7 +137,6 @@ public class OthelloImpl extends Observable implements Othello {
 	@Override
 	public void start() {
 		Player player = playerHandler.getRandomPlayer();
-
 		start(player.getId());
 	}
 
@@ -172,7 +161,6 @@ public class OthelloImpl extends Observable implements Othello {
 	@Override
 	public void addMoveObserver(Observer observer) {
 		moveObserver.addObserver(observer);
-		// score.addObserver(observer);
 	}
 
 	@Override
@@ -181,33 +169,13 @@ public class OthelloImpl extends Observable implements Othello {
 	}
 
 	/**
-	 * Get a board on ASCII format, cool! For testing
+	 * Check if the game is finished. If it is, the gameFinishedObserver will be
+	 * notified.
 	 */
-	// HashMap<String, Integer> lookup = new HashMap<String, Integer>();
-	// public String getBoardASCII() {
-	// String returnString = "";
-	// int sign = 1;
-	// Board board = boardHandler.getBoard();
-	// for (int i = 0; i < 11; i++) {
-	// for (int j = 0; j < 11; j++) {
-	// try {
-	// Node node = board.getNode(i, j);
-	// if (node.getOccupantPlayerId() == null) {
-	// returnString += "- ";
-	// continue;
-	// }
-	// if (!lookup.keySet().contains(node.getOccupantPlayerId())) {
-	// lookup.put(node.getOccupantPlayerId(), sign);
-	// sign++;
-	// }
-	// returnString += lookup.get(node.getOccupantPlayerId())
-	// + " ";
-	// } catch (IllegalArgumentException e) {
-	// returnString += "x ";
-	// }
-	// }
-	// returnString += "\n";
-	// }
-	// return returnString;
-	// }
+	private void checkIsGameFinished() {
+		if (!isActive()) {
+			setChanged();
+			notifyObservers();
+		}
+	}
 }

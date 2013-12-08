@@ -58,7 +58,8 @@ public abstract class AbstractPlayer implements Player {
 	public void setMoveStrategy(MoveStrategy moveStrategy)
 			throws UnsupportedOperationException {
 		if (type == Type.HUMAN) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(
+					"A movestrategy can't be set to player type human");
 		}
 		this.moveStrategy = moveStrategy;
 

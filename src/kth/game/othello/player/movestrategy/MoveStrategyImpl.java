@@ -5,12 +5,13 @@ import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 
 public abstract class MoveStrategyImpl implements MoveStrategy {
-	
-	String name;
+
+	private String name;
 
 	MoveStrategyImpl(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public String getName() {
 		return name;

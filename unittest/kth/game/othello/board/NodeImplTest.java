@@ -19,7 +19,6 @@ public class NodeImplTest {
 		NodeImpl unMarkednode = new NodeImpl(0, 0);
 		Assert.assertEquals(0, unMarkednode.getXCoordinate());
 		Assert.assertEquals(0, unMarkednode.getYCoordinate());
-		Assert.assertEquals("0:0", unMarkednode.getId());
 		Assert.assertEquals(null, unMarkednode.getOccupantPlayerId());
 		Assert.assertEquals(false, unMarkednode.isMarked());
 
@@ -27,7 +26,6 @@ public class NodeImplTest {
 		markedNode.setOccupantPlayerId("1");
 		Assert.assertEquals(1, markedNode.getXCoordinate());
 		Assert.assertEquals(1, markedNode.getYCoordinate());
-		Assert.assertEquals("1:1", markedNode.getId());
 		Assert.assertEquals("1", markedNode.getOccupantPlayerId());
 		Assert.assertEquals(true, markedNode.isMarked());
 	}

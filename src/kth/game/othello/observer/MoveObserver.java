@@ -3,6 +3,12 @@ package kth.game.othello.observer;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Class
+ * 
+ * @author Nils Dahlbom Norgren & Christoffer Gunning
+ * 
+ */
 public class MoveObserver extends Observable {
 
 	@Override

@@ -1,6 +1,8 @@
 package kth.game.othello.player;
 
+import static org.mockito.Mockito.mock;
 import kth.game.othello.player.Player.Type;
+import kth.game.othello.player.movestrategy.MoveStrategy;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,6 +43,14 @@ public class PlayerTest {
 		Assert.assertEquals(Type.COMPUTER, computerPlayer2.getType());
 		Assert.assertEquals(Type.HUMAN, humanPlayer.getType());
 		Assert.assertEquals(Type.HUMAN, humanPlayer2.getType());
+
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testSetMoveStrategy() {
+		Player humanPlayer = new HumanPlayer("human");
+		MoveStrategy moveStrategy = mock(MoveStrategy.class);
+		humanPlayer.setMoveStrategy(moveStrategy);
 
 	}
 }

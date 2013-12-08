@@ -13,8 +13,8 @@ import kth.game.othello.player.Player;
  */
 class PlayerHandler {
 
-	List<Player> players;
-	Player playerInTurn;
+	private List<Player> players;
+	private Player playerInTurn;
 
 	/**
 	 * Creates a PlayerHandler that handles the players of an othello game
@@ -23,7 +23,7 @@ class PlayerHandler {
 	 *            The players that plays the game
 	 */
 	PlayerHandler(List<Player> players) {
-		playerInTurn = players.get(0);
+		this.playerInTurn = players.get(0);
 		this.players = players;
 	}
 
@@ -94,8 +94,8 @@ class PlayerHandler {
 	 * @return A random player of the game
 	 */
 	Player getRandomPlayer() {
-		Random rand = new Random();
-		return players.get(rand.nextInt(players.size()));
+		Random random = new Random();
+		return players.get(random.nextInt(players.size()));
 	}
 
 }
