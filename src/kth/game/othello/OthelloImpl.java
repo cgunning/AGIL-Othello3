@@ -29,7 +29,7 @@ public class OthelloImpl extends Observable implements Othello {
 	private BoardHandler boardHandler;
 	private RulesImpl rules;
 	private Score score;
-	MoveObserver moveObserver;
+	private MoveObserver moveObserver;
 
 	/**
 	 * FOR TESTING PURPOSE ONLY
