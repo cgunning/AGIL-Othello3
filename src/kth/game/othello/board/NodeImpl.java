@@ -2,6 +2,7 @@ package kth.game.othello.board;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.UUID;
 
 /**
  * The responsibility of a node is to keep information of which player is
@@ -12,7 +13,7 @@ import java.util.Observer;
  */
 public class NodeImpl extends Observable implements Node {
 
-	private String id;
+	private UUID id;
 	private String occupantPlayerId;
 	private int xCoordinate;
 	private int yCoordinate;
@@ -27,7 +28,7 @@ public class NodeImpl extends Observable implements Node {
 	 *            - the y coordinate of the node
 	 */
 	public NodeImpl(int xCoordinate, int yCoordinate) {
-		this.id = xCoordinate + ":" + yCoordinate;
+		this.id = UUID.randomUUID();
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		this.marked = false;
@@ -43,7 +44,7 @@ public class NodeImpl extends Observable implements Node {
 
 	@Override
 	public String getId() {
-		return id;
+		return id.toString();
 	}
 
 	@Override

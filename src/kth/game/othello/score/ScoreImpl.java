@@ -10,19 +10,32 @@ import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
 
 public class ScoreImpl extends Observable implements Score, Observer {
+	private List<ScoreItem> playersScore;
 
-	List<ScoreItem> playersScore;
-
+	/**
+	 * Constructor for the score implementation.
+	 * 
+	 * @param players
+	 *            A list of the players, playing the game
+	 * @param board
+	 *            The board that the game is played on
+	 */
 	public ScoreImpl(List<Player> players, Board board) {
 		playersScore = new ArrayList<ScoreItem>();
+		initScore(board, players);
+	}
 
+	/**
+	 * Initializes the score on the board. Creates a new score item for each
+	 * player and then counts how many pieces each player has.
+	 * 
+	 * @param board
+	 *            The board that is played on.
+	 */
+	private void initScore(Board board, List<Player> players) {
 		for (Player player : players) {
 			playersScore.add(new ScoreItem(player.getId(), 0));
 		}
-		initScore(board);
-	}
-
-	private void initScore(Board board) {
 		for (Node node : board.getNodes()) {
 			if (node.getOccupantPlayerId() != null) {
 				for (ScoreItem playerScore : playersScore) {
@@ -51,9 +64,13 @@ public class ScoreImpl extends Observable implements Score, Observer {
 			if (playerScore.getPlayerId().equals(playerId)) {
 				return playerScore.getScore();
 			}
+		// Returns -1 if there is no ScoreItem with the corresponding player id
 		return -1;
 	}
 
+	/**
+	 * Notifies the observers for the Score that it has changed.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		List<String> updatedScorePlayerIds = new ArrayList<String>();

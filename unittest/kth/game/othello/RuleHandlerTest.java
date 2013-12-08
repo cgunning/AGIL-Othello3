@@ -68,6 +68,7 @@ public class RuleHandlerTest {
 				when(boardHandler.getNodeFromId("" + i + ":" + j)).thenReturn(
 						node);
 				when(board.getNode(i, j)).thenReturn(node);
+				when(board.hasNode(i, j)).thenReturn(true);
 				nodes.add(node);
 			}
 

@@ -65,7 +65,6 @@ public class MoveHandler {
 	 */
 	List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
-		// TODO Check so that the id is in the range of the game
 		if (!rules.isMoveValid(playerId, nodeId))
 			throw new IllegalArgumentException();
 

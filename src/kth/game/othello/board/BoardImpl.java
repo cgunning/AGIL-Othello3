@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class BoardImpl implements Board {
 
-	List<Node> nodes;
+	private List<Node> nodes;
 
 	/**
 	 * Creates a board of specific structure
@@ -20,7 +20,6 @@ public class BoardImpl implements Board {
 	 *            - The nodes of the structure
 	 */
 	public BoardImpl(List<Node> nodes) {
-
 		this.nodes = nodes;
 	}
 
